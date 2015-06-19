@@ -1,0 +1,717 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="fr"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>TELE-INSCRIPTION DGFiP</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="css/main.css">        
+		<link rel="stylesheet" href="css/jquery-ui.min.css">
+		<link rel="stylesheet" href="css/inscription.css">
+
+		<script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+
+    </head>
+    <body>
+        <!--[if lt IE 8]>
+            <p class="browserupgrade">Vous utilisez un navigateur <strong>obsolète</strong>. <a href="http://browsehappy.com/">Mettez à jour</a> ce dernier pour améliorer votre sécurité et confort de navigation.</p>
+        <![endif]-->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+		  <button id="menuTrig" class="menuTrig1">
+		  <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
+		  Menu</button>
+          <div class="titreZone"><h1 href="#">Inscription à un concours</h1></div>
+        </div>
+
+            <!--<a class="pull-right"><img class="logoDGFiP" src="img/logoDGFiP.png"/></a>-->
+		
+		<div id="menu" class="menu">
+		<ul>
+			<li><a href="index.html"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> Accueil</a></li>
+			<li><a href="gestionCompte.html"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Gérer mon compte</a></li>
+			<li><a href="gestionConcours.html"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Gérer mes concours</a></li>
+			<li><a href="inscriptionConcours.html"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> S'inscrire à un concours</a></li>
+			<li><a ><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> Informations</a></li>
+			<li><a ><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> Contact</a></li>
+			<li><a class="deco"><span class="glyphicon glyphicon-off" aria-hidden="true"></span> Se déconnecter</a></li>
+		</ul>
+		</div>
+	
+      </div>
+    </nav>
+
+	
+	<div class="container-fluid">
+	<!-- multistep form -->
+<form id="msform">
+	<!-- progressbar -->
+	<ul id="progressbar">
+		<li class="active">Vérification des données</li>
+		<li>Choix des épreuves</li>
+		<li>Validation</li>
+	</ul>
+	<!-- fieldsets -->
+	<fieldset>
+		<h2 class="fs-title">Contrôleur Externe Fip 2eme Classe, Millesime 2016</h2>
+		<h3 class="fs-subtitle">Vérification des données</h3>
+	<div class="row">	   
+<h4>Votre état civil :</h4>    
+	<div class="col-md-12  form-group" value='<TMPL_VAR NAME = "sexe">' id="sexe">
+	<label>Civilité : *</label>
+	<div class="radio">
+	<label><input type="radio" name="civilite" disabled>M.</label>
+	</div>
+	<div class="radio">
+	<label><input type="radio" name="civilite" disabled>Mme</label>
+	</div>
+	</div>
+  
+  <div class="col-md-6 form-group">
+    <label for="nom">Nom de famille : *</label>
+    <input type="text" class="form-control" value='<TMPL_VAR NAME = "nom">' id="nom" name="name" disabled>
+  </div>
+  <div class="col-md-6 form-group">
+    <label for="nomUsag">Nom d'usage : </label>
+    <input type="text" class="form-control" value='<TMPL_VAR NAME = "nomUsag">' id="nomUsag" disabled>
+  </div>
+  <div class="col-md-6 form-group">
+    <label for="prenom">Prénom : *</label>
+    <input type="text" class="form-control" value='<TMPL_VAR NAME = "prenom">' id="prenom" name="firstname" disabled>
+  </div>
+  <div class="col-md-6 form-group">
+    <label for="prenom2">2e/3e prénoms : *</label>
+    <input type="text" class="form-control" value='<TMPL_VAR NAME = "prenom2">' id="prenom2" name="secondname" disabled>
+  </div>
+  
+  <div class="col-md-4 form-group">
+    <label for="dateNaissance">Date de naissance : *</label>
+    <input type="date" maxlength="10" size="10" placeholder="jj/mm/aaaa" class="form-control" value='<TMPL_VAR NAME = "dateNaissance">' id="dateNaissance" name="birthdate" disabled>
+  </div>
+  
+  <div class="col-md-4 form-group">
+    <label for="villeNaissance">Ville de naissance : *</label>
+    <input type="text" class="form-control" value='<TMPL_VAR NAME = "villeNaissance">' id="villeNaissance" name="Town" disabled>
+  </div>
+  
+  <div class="col-md-4 form-group">
+    <label for="departementNaissance">Département de naissance : *</label>
+    <select class="form-control" value='<TMPL_VAR NAME = "departementNaissance">' id="departementNaissance" name="departement" disabled>
+	<option value="01">01 AIN</option>
+		<option value="02">02 AISNE</option>
+		<option value="03">03 ALLIER</option>
+		<option value="04">04 ALPES DE HAUTE PROVENCE</option>
+		<option value="05">05 HAUTES ALPES</option>
+		<option value="06">06 ALPES MARITIMES</option>
+		<option value="07">07 ARDECHE</option>
+		<option value="08">08 ARDENNES</option>
+		<option value="09">09 ARIEGE</option>
+		<option value="10">10 AUBE</option>
+		<option value="11">11 AUDE</option>
+		<option value="12">12 AVEYRON</option>
+		<option value="13">13 BOUCHES-DU-RHONE</option>
+		<option value="14">14 CALVADOS</option>
+		<option value="15">15 CANTAL</option>
+		<option value="16">16 CHARENTE</option>
+		<option value="17">17 CHARENTE MARITIME</option>
+		<option value="18">18 CHER</option>
+		<option value="19">19 CORREZE</option>
+		<option value="201">201 CORSE DU SUD</option>
+		<option value="202">202 HAUTE-CORSE</option>
+		<option value="21">21 COTE D'OR</option>
+		<option value="22">22 COTES D'ARMOR</option>
+		<option value="23">23 CREUSE</option>
+		<option value="24">24 DORDOGNE</option>
+		<option value="25">25 DOUBS</option>
+		<option value="26">26 DROME</option>
+		<option value="27">27 EURE</option>
+		<option value="28">28 EURE ET LOIR</option>
+		<option value="29">29 FINISTERE</option>
+		<option value="30">30 GARD</option>
+		<option value="31">31 HAUTE GARONNE</option>
+		<option value="32">32 GERS</option>
+		<option value="33">33 GIRONDE</option>
+		<option value="34">34 HERAULT</option>
+		<option value="35">35 ILLE ET VILAINE</option>
+		<option value="36">36 INDRE</option>
+		<option value="37">37 INDRE ET LOIRE</option>
+		<option value="38">38 ISERE</option>
+		<option value="39">39 JURA</option>
+		<option value="40">40 LANDES</option>
+		<option value="41">41 LOIR ET CHER</option>
+		<option value="42">42 LOIRE</option>
+		<option value="43">43 HAUTE LOIRE</option>
+		<option value="44">44 LOIRE ATLANTIQUE</option>
+		<option value="45">45 LOIRET</option>
+		<option value="46">46 LOT</option>
+		<option value="47">47 LOT ET GARONNE</option>
+		<option value="48">48 LOZERE</option>
+		<option value="49">49 MAINE ET LOIRE</option>
+		<option value="50">50 MANCHE</option>
+		<option value="51">51 MARNE</option>
+		<option value="52">52 HAUTE MARNE</option>
+		<option value="53">53 MAYENNE</option>
+		<option value="54">54 MEURTHE ET MOSELLE</option>
+		<option value="55">55 MEUSE</option>
+		<option value="56">56 MORBIHAN</option>
+		<option value="57">57 MOSELLE</option>
+		<option value="58">58 NIEVRE</option>
+		<option value="59">59 NORD</option>
+		<option value="60">60 OISE</option>
+		<option value="61">61 ORNE</option>
+		<option value="62">62 PAS DE CALAIS</option>
+		<option value="63">63 PUY DE DOME</option>
+		<option value="64">64 PYRÉNÉES ATLANTIQUES</option>
+		<option value="65">65 HAUTES PYRÉNÉES</option>
+		<option value="66">66 PYRÉNÉES ORIENTALES</option>
+		<option value="67">67 BAS RHIN</option>
+		<option value="68">68 HAUT RHIN</option>
+		<option value="69">69 RHONE</option>
+		<option value="70">70 HAUTE SAONE</option>
+		<option value="71">71 SAONE ET LOIRE</option>
+		<option value="72">72 SARTHE</option>
+		<option value="73">73 SAVOIE</option>
+		<option value="74">74 HAUTE SAVOIE</option>
+		<option value="75">75 PARIS</option>
+		<option value="76">76 SEINE MARITIME</option>
+		<option value="77">77 SEINE ET MARNE</option>
+		<option value="78">78 YVELINES</option>
+		<option value="79">79 DEUX SEVRES</option>
+		<option value="80">80 SOMME</option>
+		<option value="81">81 TARN</option>
+		<option value="82">82 TARN ET GARONNE</option>
+		<option value="83">83 VAR</option>
+		<option value="84">84 VAUCLUSE</option>
+		<option value="85">85 VENDEE</option>
+		<option value="86">86 VIENNE</option>
+		<option value="87">87 HAUTE VIENNE</option>
+		<option value="88">88 VOSGES</option>
+		<option value="89">89 YONNE</option>
+		<option value="90">90 TERRITOIRE DE BELFORT</option>
+		<option value="91">91 ESSONNE</option>
+		<option value="92">92 HAUTS DE SEINE</option>
+		<option value="93">93 SEINE SAINT DENIS</option>
+		<option value="94">94 VAL DE MARNE</option>
+		<option value="95">95 VAL D'OISE</option>
+		<option value="971">971 GUADELOUPE</option>
+		<option value="972">972 MARTINIQUE</option>
+		<option value="973">973 GUYANE</option>
+		<option value="974">974 REUNION</option>
+		<option value="975">975 SAINT PIERRE ET MIQUELON</option>
+		<option value="976">976 MAYOTTE</option>
+		<option value="986">986 WALLIS ET FUTUNA</option>
+		<option value="987">987 POLYNESIE FRANCAISE</option>
+		<option value="988">988 NOUVELLE-CALEDONIE</option>
+		<option value="99">99 AUTRES</option>
+		<option value="999">999 ETRANGER</option>
+    </select>
+  </div>
+  
+  	<div class="col-md-6 form-group" value='<TMPL_VAR NAME = "nationalite">' id="nationalite">
+	<label>Nationalité : *</label>
+	<div class="radio">
+	<label><input type="radio" name="nationalite" disabled>Nationalité française</label>
+	</div>
+	<div class="radio">
+	<label><input type="radio" name="nationalite" disabled>Ressortissant UE</label>
+	</div>
+	<div class="radio">
+	<label><input type="radio" name="nationalite" disabled>Autre nationalité</label>
+	</div>
+	</div>
+	
+	  <div class="col-md-6 form-group">
+    <label for="paysNaissance">Pays : *</label>
+    <select class="form-control" value='<TMPL_VAR NAME = "paysNaissance">' id="paysNaissance" name="country" disabled>
+    	<option value="1">ALLEMAGNE</option>
+		<option value="2">AUTRICHE</option>
+		<option value="3">BELGIQUE</option>
+		<option value="4">BULGARIE</option>
+		<option value="5">CHYPRE</option>
+		<option value="6">DANEMARK</option>
+		<option value="7">ESPAGNE</option>
+		<option value="8">ESTONIE</option>
+		<option value="9">FINLANDE</option>
+		<option value="10">GRECE</option>
+		<option value="11">HONGRIE</option>
+		<option value="12">IRLANDE</option>
+		<option value="13">ISLANDE</option>
+		<option value="14">ITALIE</option>
+		<option value="15">LETTONIE</option>
+		<option value="16">LIECHTENSTEIN</option>
+		<option value="17">LITUANIE</option>
+		<option value="18">LUXEMBOURG</option>
+		<option value="19">MALTE</option>
+		<option value="20">NORVEGE</option>
+		<option value="21">PAYS-BAS</option>
+		<option value="22">POLOGNE</option>
+		<option value="23">PORTUGAL</option>
+		<option value="97">PRINCIPAUTE ANDORRE</option>
+		<option value="98">PRINCIPAUTE MONACO</option>
+		<option value="24">REPUBLIQUE TCHEQUE</option>
+		<option value="25">ROUMANIE</option>
+		<option value="26">ROYAUME-UNI</option>
+		<option value="27">SLOVAQUIE</option>
+		<option value="28">SLOVENIE</option>
+		<option value="29">SUEDE</option>
+		<option value="99">SUISSE</option>
+    </select>
+  </div>
+  </div>
+<div class="row">
+<h4>Vos coordonnées :</h4>
+<div class="col-md-2 form-group">
+    <label for="numVoieHab">Numéro de voie : </label>
+    <input type="text" class="form-control" value='<TMPL_VAR NAME = "numVoieHab">' id="numVoieHab" name="numVoie" disabled>
+  </div>
+  <div class="col-md-10 form-group">
+    <label for="addresseHab">Voie : </label>
+    <input type="text" class="form-control" value='<TMPL_VAR NAME = "addresseHab">' id="addresseHab" name="address" disabled>
+  </div>
+    <div class="col-md-2 form-group">
+    <label for="indicNumVoieHab">Indice de répétition : </label>
+    <select class="form-control" value='<TMPL_VAR NAME = "indicNumVoieHab">' id="indicNumVoieHab" name="indice" disabled>
+	<option></option>
+	<option>bis</option>
+	<option>ter</option>
+	<option>quater</option>
+	<option>etc</option>
+    </select>
+  </div>
+  <div class="col-md-10 form-group">
+    <label for="addresseHab2">Complément d'addresse : </label>
+    <input type="text" class="form-control" value='<TMPL_VAR NAME = "addresseHab2">' id="addresseHab2" name="address2" disabled>
+  </div>
+  <div class="col-md-6 form-group">
+    <label for="communeHab">Commune : *</label>
+    <input type="text" class="form-control" value='<TMPL_VAR NAME = "communeHab">' id="communeHab" name="city" disabled>
+  </div>
+  <div class="col-md-6 form-group">
+    <label for="codePostalHab">Code postal : *</label>
+    <input type="text" class="form-control" value='<TMPL_VAR NAME = "codePostalHab">' id="codePostalHab" name="postal" disabled>
+  </div>
+  <div class="col-md-6 form-group">
+    <label for="paysHab">Pays : *</label>
+    <select class="form-control" value='<TMPL_VAR NAME = "paysHab">' id="paysHab" name="country" disabled>
+		<option value="1">ALLEMAGNE</option>
+		<option value="2">AUTRICHE</option>
+		<option value="3">BELGIQUE</option>
+		<option value="4">BULGARIE</option>
+		<option value="5">CHYPRE</option>
+		<option value="6">DANEMARK</option>
+		<option value="7">ESPAGNE</option>
+		<option value="8">ESTONIE</option>
+		<option value="9">FINLANDE</option>
+		<option value="10">GRECE</option>
+		<option value="11">HONGRIE</option>
+		<option value="12">IRLANDE</option>
+		<option value="13">ISLANDE</option>
+		<option value="14">ITALIE</option>
+		<option value="15">LETTONIE</option>
+		<option value="16">LIECHTENSTEIN</option>
+		<option value="17">LITUANIE</option>
+		<option value="18">LUXEMBOURG</option>
+		<option value="19">MALTE</option>
+		<option value="20">NORVEGE</option>
+		<option value="21">PAYS-BAS</option>
+		<option value="22">POLOGNE</option>
+		<option value="23">PORTUGAL</option>
+		<option value="97">PRINCIPAUTE ANDORRE</option>
+		<option value="98">PRINCIPAUTE MONACO</option>
+		<option value="24">REPUBLIQUE TCHEQUE</option>
+		<option value="25">ROUMANIE</option>
+		<option value="26">ROYAUME-UNI</option>
+		<option value="27">SLOVAQUIE</option>
+		<option value="28">SLOVENIE</option>
+		<option value="29">SUEDE</option>
+		<option value="99">SUISSE</option>
+    </select>
+  </div>
+  <div class="col-md-6 form-group">
+    <label for="departementHab">Département : *</label>
+    <select class="form-control" value='<TMPL_VAR NAME = "departementHab">' id="departementHab" name="departement" disabled>
+	<option value="01">01 AIN</option>
+		<option value="02">02 AISNE</option>
+		<option value="03">03 ALLIER</option>
+		<option value="04">04 ALPES DE HAUTE PROVENCE</option>
+		<option value="05">05 HAUTES ALPES</option>
+		<option value="06">06 ALPES MARITIMES</option>
+		<option value="07">07 ARDECHE</option>
+		<option value="08">08 ARDENNES</option>
+		<option value="09">09 ARIEGE</option>
+		<option value="10">10 AUBE</option>
+		<option value="11">11 AUDE</option>
+		<option value="12">12 AVEYRON</option>
+		<option value="13">13 BOUCHES-DU-RHONE</option>
+		<option value="14">14 CALVADOS</option>
+		<option value="15">15 CANTAL</option>
+		<option value="16">16 CHARENTE</option>
+		<option value="17">17 CHARENTE MARITIME</option>
+		<option value="18">18 CHER</option>
+		<option value="19">19 CORREZE</option>
+		<option value="201">201 CORSE DU SUD</option>
+		<option value="202">202 HAUTE-CORSE</option>
+		<option value="21">21 COTE D'OR</option>
+		<option value="22">22 COTES D'ARMOR</option>
+		<option value="23">23 CREUSE</option>
+		<option value="24">24 DORDOGNE</option>
+		<option value="25">25 DOUBS</option>
+		<option value="26">26 DROME</option>
+		<option value="27">27 EURE</option>
+		<option value="28">28 EURE ET LOIR</option>
+		<option value="29">29 FINISTERE</option>
+		<option value="30">30 GARD</option>
+		<option value="31">31 HAUTE GARONNE</option>
+		<option value="32">32 GERS</option>
+		<option value="33">33 GIRONDE</option>
+		<option value="34">34 HERAULT</option>
+		<option value="35">35 ILLE ET VILAINE</option>
+		<option value="36">36 INDRE</option>
+		<option value="37">37 INDRE ET LOIRE</option>
+		<option value="38">38 ISERE</option>
+		<option value="39">39 JURA</option>
+		<option value="40">40 LANDES</option>
+		<option value="41">41 LOIR ET CHER</option>
+		<option value="42">42 LOIRE</option>
+		<option value="43">43 HAUTE LOIRE</option>
+		<option value="44">44 LOIRE ATLANTIQUE</option>
+		<option value="45">45 LOIRET</option>
+		<option value="46">46 LOT</option>
+		<option value="47">47 LOT ET GARONNE</option>
+		<option value="48">48 LOZERE</option>
+		<option value="49">49 MAINE ET LOIRE</option>
+		<option value="50">50 MANCHE</option>
+		<option value="51">51 MARNE</option>
+		<option value="52">52 HAUTE MARNE</option>
+		<option value="53">53 MAYENNE</option>
+		<option value="54">54 MEURTHE ET MOSELLE</option>
+		<option value="55">55 MEUSE</option>
+		<option value="56">56 MORBIHAN</option>
+		<option value="57">57 MOSELLE</option>
+		<option value="58">58 NIEVRE</option>
+		<option value="59">59 NORD</option>
+		<option value="60">60 OISE</option>
+		<option value="61">61 ORNE</option>
+		<option value="62">62 PAS DE CALAIS</option>
+		<option value="63">63 PUY DE DOME</option>
+		<option value="64">64 PYRÉNÉES ATLANTIQUES</option>
+		<option value="65">65 HAUTES PYRÉNÉES</option>
+		<option value="66">66 PYRÉNÉES ORIENTALES</option>
+		<option value="67">67 BAS RHIN</option>
+		<option value="68">68 HAUT RHIN</option>
+		<option value="69">69 RHONE</option>
+		<option value="70">70 HAUTE SAONE</option>
+		<option value="71">71 SAONE ET LOIRE</option>
+		<option value="72">72 SARTHE</option>
+		<option value="73">73 SAVOIE</option>
+		<option value="74">74 HAUTE SAVOIE</option>
+		<option value="75">75 PARIS</option>
+		<option value="76">76 SEINE MARITIME</option>
+		<option value="77">77 SEINE ET MARNE</option>
+		<option value="78">78 YVELINES</option>
+		<option value="79">79 DEUX SEVRES</option>
+		<option value="80">80 SOMME</option>
+		<option value="81">81 TARN</option>
+		<option value="82">82 TARN ET GARONNE</option>
+		<option value="83">83 VAR</option>
+		<option value="84">84 VAUCLUSE</option>
+		<option value="85">85 VENDEE</option>
+		<option value="86">86 VIENNE</option>
+		<option value="87">87 HAUTE VIENNE</option>
+		<option value="88">88 VOSGES</option>
+		<option value="89">89 YONNE</option>
+		<option value="90">90 TERRITOIRE DE BELFORT</option>
+		<option value="91">91 ESSONNE</option>
+		<option value="92">92 HAUTS DE SEINE</option>
+		<option value="93">93 SEINE SAINT DENIS</option>
+		<option value="94">94 VAL DE MARNE</option>
+		<option value="95">95 VAL D'OISE</option>
+		<option value="971">971 GUADELOUPE</option>
+		<option value="972">972 MARTINIQUE</option>
+		<option value="973">973 GUYANE</option>
+		<option value="974">974 REUNION</option>
+		<option value="975">975 SAINT PIERRE ET MIQUELON</option>
+		<option value="976">976 MAYOTTE</option>
+		<option value="986">986 WALLIS ET FUTUNA</option>
+		<option value="987">987 POLYNESIE FRANCAISE</option>
+		<option value="988">988 NOUVELLE-CALEDONIE</option>
+		<option value="99">99 AUTRES</option>
+		<option value="999">999 ETRANGER</option>
+    </select>
+  </div>
+  <div class="col-md-6 form-group">
+    <label for="numTel">Téléphone : *</label>
+    <input type="text" class="form-control" value='<TMPL_VAR NAME = "numTel">' id="numTel" name="phone" disabled>
+  </div>
+  <div class="col-md-6 form-group">
+    <label for="addresseMail">Mèl : *</label>
+    <input type="text" class="form-control" value='<TMPL_VAR NAME = "addresseMail">' id="addresseMail" name="mail" disabled>
+  </div>  
+  </div>  
+<div class="row">
+<h4>Votre situation militaire :</h4>
+<div class="form-group">
+    <p class="infoFC validFC"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> 
+	Vous avez accompli vos obligations militaires.</p>
+</div>
+</div>
+<div class="row">
+<h4>Vos diplômes</h4>
+<div class="form-group">
+<p class="infoFC validFC"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> 
+	Vous avez fourni un justificatif de niveau "Baccalauréat" permettant la participation à ce concours.</p>
+</div>
+</div>
+
+<input name="next" class="next action-button pull-right" value="Suivant" type="button">
+	</fieldset>
+	
+	<fieldset>
+		<h2 class="fs-title">Choix des épreuves</h2>
+		<div class="row">
+<h4>Choix du centre d'examen :</h4>
+<div class="col-md-12 form-group">
+    <select class="form-control" id="centreEpreuve" name="centreEpreuve">
+		<option value="-999999"> &Agrave; choisir </option>
+		<option value="TWF">CENTRE DE MATA&#039;UTU</option>
+		<option value="2A0">CENTRE D&#039;EXAMEN D&#039;AJACCIO</option>
+		<option value="800">CENTRE D&#039;EXAMEN D&#039;AMIENS</option>
+		<option value="971">CENTRE D&#039;EXAMEN DE BASSE-TERRE</option>
+		<option value="250">CENTRE D&#039;EXAMEN DE BESANCON</option>
+		<option value="930">CENTRE D&#039;EXAMEN DE BOBIGNY</option>
+		<option value="330">CENTRE D&#039;EXAMEN DE BORDEAUX</option>
+		<option value="140">CENTRE D&#039;EXAMEN DE CAEN</option>
+		<option value="973">CENTRE D&#039;EXAMEN DE CAYENNE</option>
+		<option value="510">CENTRE D&#039;EXAMEN DE CHÂLONS-EN-CHAMPAGNE</option>
+		<option value="630">CENTRE D&#039;EXAMEN DE CLERMONT-FERRAND</option>
+		<option value="940">CENTRE D&#039;EXAMEN DE CRETEIL</option>
+		<option value="210">CENTRE D&#039;EXAMEN DE DIJON</option>
+		<option value="972">CENTRE D&#039;EXAMEN DE FORT-DE-FRANCE</option>
+		<option value="591">CENTRE D&#039;EXAMEN DE LILLE</option>
+		<option value="870">CENTRE D&#039;EXAMEN DE LIMOGES</option>
+		<option value="690">CENTRE D&#039;EXAMEN DE LYON</option>
+		<option value="976">CENTRE D&#039;EXAMEN DE MAMOUDZOU</option>
+		<option value="131">CENTRE D&#039;EXAMEN DE MARSEILLE</option>
+		<option value="570">CENTRE D&#039;EXAMEN DE METZ</option>
+		<option value="340">CENTRE D&#039;EXAMEN DE MONTPELLIER</option>
+		<option value="921">CENTRE D&#039;EXAMEN DE NANTERRE</option>
+		<option value="440">CENTRE D&#039;EXAMEN DE NANTES</option>
+		<option value="988">CENTRE D&#039;EXAMEN DE NOUMEA</option>
+		<option value="987">CENTRE D&#039;EXAMEN DE PAPEETE</option>
+		<option value="754">CENTRE D&#039;EXAMEN DE PARIS</option>
+		<option value="860">CENTRE D&#039;EXAMEN DE POITIERS</option>
+		<option value="350">CENTRE D&#039;EXAMEN DE RENNES</option>
+		<option value="760">CENTRE D&#039;EXAMEN DE ROUEN</option>
+		<option value="975">CENTRE D&#039;EXAMEN DE ST-PIERRE ET MIQUELON</option>
+		<option value="670">CENTRE D&#039;EXAMEN DE STRASBOURG</option>
+		<option value="310">CENTRE D&#039;EXAMEN DE TOULOUSE</option>
+		<option value="450">CENTRE D&#039;EXAMEN D&#039;ORLEANS</option>
+		<option value="TGE">CENTRE D&#039;EXAMEN POUR L&#039;ETRANGER</option>
+		<option value="974">CENTRE D&#039;EXAMEN ST-DENIS DE LA REUNION</option>    </select>
+<p class="text-info"> Ce choix n'engage pas l'administration, il sera pris en compte sous réserve 
+    de places disponibles. &Agrave; défaut, vous serez rattaché(e) au centre de votre 
+    département de résidence
+</p>
+</div>
+
+<h4>Pré-admissibilité :</h4>
+<div class="col-md-12 form-group">
+    <label for="preAdmissibilite1">&Eacute;preuve 1 : *</label>
+    <select class="form-control" id="preAdmissibilite1" name="preAdmissibilite1" disabled>
+	<option>QUESTIONNAIRES &Agrave; CHOIX MULTIPLES</option>
+    </select>
+</div>
+
+<h4>Admissibilité :</h4>
+<div class="col-md-12 form-group">
+    <label for="admissibilite1">&Eacute;preuve 1 : *</label>
+    <select class="form-control" id="admissibilite1" name="admissibilite1" disabled>
+	<option>QUEST ET/OU CAS PRATIQUE CARACT ECO/FINANCIER</option>
+    </select>
+</div>
+<div class="col-md-12 form-group">
+    <label for="admissibilite2">&Eacute;preuve 2 : *</label>
+    <select class="form-control" id="admissibilite2" name="admissibilite2">
+	<option value="-999999">&Agrave; choisir</option>
+	<option value="103">COMPOSITION ET/OU CAS PRATIQ BASES JURIDIQUES</option>
+	<option value="048">COMPOSITION ET/OU CAS PRATIQUES D&#039; ECONOMIE</option>
+	<option value="042">COMPTABILITÉ PRIVÉE</option>
+	<option value="030">MATHÉMATIQUES</option>
+
+    </select>
+</div>
+<div class="col-md-12 form-group">
+    <label for="admissibilite3">&Eacute;preuve 3 : *</label>
+    <select class="form-control" id="admissibilite3" name="admissibilite3">
+	<option value="-999999">&Agrave; choisir</option>
+	<option value="Aucune">Aucune</option>
+	<option value="050">VERSION ALLEMANDE</option>
+	<option value="051">VERSION ANGLAISE</option>
+	<option value="052">VERSION ESPAGNOLE</option>
+	<option value="053">VERSION ITALIENNE</option>
+    </select>
+</div>
+
+<h4>Admission :</h4>
+<div class="col-md-12 form-group">
+    <label for="admission1">&Eacute;preuve 1 : *</label>
+    <select class="form-control" id="admission1" name="admission1" disabled>
+	<option>ENTRETIEN MOTIVATIONS APTITUDE AUX FONCTIONS</option>
+    </select>
+</div>
+</div>
+<p>Vous trouverez toutes les informations utiles sur les épreuves des concours sur 
+<a target="_blank" href="http://www.economie.gouv.fr/recrutement">l'Espace recrutement du portail de l'Economie et des Finances.</a> </p>
+
+<p>(*) Champs obligatoires</p>
+<input name="next" class="next action-button pull-right" value="Suivant" type="button">
+<input name="previous" class="previous action-button pull-right" value="Retour" type="button">
+
+	</fieldset>
+	
+	<fieldset>
+		<h2 class="fs-title">Inscription</h2>
+		<h3 class="fs-subtitle">Engagement sur l'honneur</h3>
+		
+		<ul>
+		<li>Je certifie sur l'honneur avoir pris connaissance des <a class="texte_orange"
+			href="http://www.economie.gouv.fr/recrutement/recrutement-avec-concours" target="_blank">
+			conditions d'admission à concourir</a> et que les renseignements indiqués
+			 sont exacts.</li>
+		
+		<li>Tous les justificatifs nécessaires à l’instruction de votre 
+		dossier doivent être transmis ou déposés dans votre compte au plus tard 
+		au premier jour des épreuves écrites.<br>
+		<!--Liste en cas d'absence données dans le compte &Agrave; ce jour vous n'avez pas fourni :<br>
+		<ul>
+		<li>Lorem</li>
+		<li>Ipsum</li>
+		</ul>-->
+		</li>
+		
+		<li>Je reconnais que toute déclaration inexacte ou incomplète
+		me fera perdre le bénéfice de mon éventuelle admission
+			à un concours, sans préjudice de l'application de l'article 2 de
+			la loi du 23 décembre 1901.</li>
+		
+		<li>Je reconnais qu'en cas de réussite, je ne pourrai être
+			nommé(e) que si je remplis les conditions exigées et notamment
+			les conditions d'aptitude physique prévues par la réglementation.</li>
+		
+		<li>Je déclare jouir de mes droits civiques et ne pas avoir
+			subi de condamnations figurant au bulletin n°2 du casier
+			judiciaire (articles 5-2 et 3 et 5-bis 1 et 2 de la loi 83-634 du
+			13 juillet 1983).</li>
+					   
+	   </ul>
+	<h4>Publication des résultats :</h4>
+	<div class="col-md-12  form-group">
+	<div class="checkbox">
+	<label><input type="checkbox" name="publicationResultats"> Je refuse la diffusion de mon identité lors de la publication des résultats du concours sur internet.</label>
+	</div>
+	</div>			   
+	
+	<h4>Engagement :</h4>
+	<div class="col-md-12  form-group">
+	<div class="checkbox">
+	<label><input type="checkbox" name="engagement"> En cochant cette case, j'accepte les engagements listés ci-dessus. *</label>
+	</div>
+	</div>
+	
+	
+			   
+<button type="button" class="submit action-button pull-right" data-toggle="modal" data-target="#recapInscription">Valider</button>
+<input name="previous" class="previous action-button pull-right" value="Retour" type="button">
+	</fieldset>
+</form>
+	</div>
+	
+	
+
+  <!-- Modal -->
+  <div class="modal fade" id="recapInscription" role="dialog">
+    <div class="modal-dialog modal-lg">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Récapitulatif d'inscription</h4>
+        </div>
+        <div class="modal-body">
+		<strong>Récapitulatif de votre inscription au concours de
+		CONTRÔLEUR EXTERNE FIP 2EME CLASSE, millésime 2016 ,
+		le 16/06/2015 à 14h41 :</strong>
+		
+		<br/>
+		<div>
+		<strong>
+		M. ...</strong>
+		</div>
+		<br/>
+		<div>
+		<strong>Diplôme le plus élevé : </strong> 
+
+		</div>
+
+		<div>
+		<strong>Choix des matières et options : </strong>
+		<ul style="list-decoration:none;">
+		<li>Préadmissibilité : <ul>
+		<li>QUESTIONNAIRES A CHOIX MULTIPLE</li></ul>
+		</li><li>Admissibilité : 
+		<ul>
+		<li>QUEST ET/OU CAS PRATIQUE CARACT ECO/FINANCIER</li>
+		<li>COMPOSITION ET/OU CAS PRATIQ BASES JURIDIQUES</li>
+		<li>VERSION ALLEMANDE</li>
+		</ul></li>
+		<li>Admission : 
+		<ul>
+		<li>ENTRETIEN MOTIVATIONS APTITUDE AUX FONCTIONS</li>
+		</ul></li></ul></div>
+
+		<div>
+		<strong>Centre d'examen : </strong>
+		CENTRE D&#039;EXAMEN DE DIJON</div>
+		<br/>
+		<div>
+		<strong>Numéro de téléinscription : </strong> 40886</div>
+
+		<br />
+
+		<div>
+		<strong>Publication des résultats :</strong>
+		J&#039;accepte la diffusion de mon identité lors de 
+		la publication des résultats du concours sur internet. </div>
+<br><br>
+		<div>
+		Vous serez rattaché(e) à la Direction de candidature de :
+		<br/>
+		DIR REG. FINANCES PUBLIQUES IDF ET PARIS<br/> 
+		6  RUE PAGANINISERVICE CHARGÉ DES CONCOURS<br/>
+		75972 PARIS CEDEX 20<br/>
+		enfip.teleinscription@dgfip.finances.gouv.fr</div>
+        </div>
+        <div class="modal-footer">
+          <a href="index.html" type="button" class="btn btn-default">Fermer</a>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
+<div id="fermOverlay"></div>
+	
+		<script src="js/vendor/jquery-1.11.2.min.js"></script>
+        <script src="js/vendor/jquery-ui.min.js"></script>	
+		<script src="js/vendor/jquery-easing.js"></script><!-- jQuery easing plugin -->
+        <script src="js/vendor/bootstrap.min.js"></script>
+        <script src="js/main.js"></script>
+    </body>
+</html>

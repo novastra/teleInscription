@@ -1,0 +1,17 @@
+@()
+
+@main() {
+
+<header>
+	<img class="center-block logo" src="@routes.Assets.at("images/images.jpg")"/>
+</header>
+
+<div class="row">
+	<div class="logtext">S'authentifier avec France Connect</div>
+	<a class="fc_popup" href="@routes.Application.login()">
+		<img class="center-block fc" src="@routes.Assets.at("images/France-connect.png")" alt="login"/>
+	</a>
+</div>
+
+}
+

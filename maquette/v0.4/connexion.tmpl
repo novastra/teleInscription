@@ -1,0 +1,55 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+
+
+
+    <title>DGFiP - Inscription concours</title>
+<link rel="stylesheet" href="css/connexion.css">  
+    
+  </head>
+
+  <body>
+
+    <div class="wrapper">
+	<div class="container">
+		<h1 id="messageConnexion">Inscription aux concours administratif</h1>
+		
+		<form class="form">
+			<!--
+			<input placeholder="Identifiant" type="text">
+			<input placeholder="Mot de passe" type="password">-->
+			<div class="boutonsConnexion">
+			<a href='<TMPL_VAR NAME="URL_FC">' id="FC_login" class="btn btn-large"><img style="height: 1.25em; margin: -0.2em 0;" src="img/logoFC.png" alt="Connexion avec FranceConnect"/></a>
+            <span class="verticalLine"></span>
+			<button type="submit" id="login-button">Connexion traditionnelle</button>
+			</div>
+
+		</form>
+	</div>
+	
+	<ul class="bg-bubbles"> <!-- le nb de li détermine le nombre d'éléments animés-->
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+	</ul>
+</div>
+<script src="js/vendor/jquery-1.11.2.min.js"></script>
+        <script>
+      $('button').click(function (event) {
+    event.preventDefault();
+	$('#messageConnexion').html("Bienvenue");
+    $('form').delay(300).fadeOut(500, function(){
+		window.location.href = "index.html";
+    });
+    $('.wrapper').addClass('form-success');
+});
+    </script>
+</body></html>

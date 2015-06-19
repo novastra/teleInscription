@@ -1,0 +1,487 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!--[if lt IE 7]>      <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr-FR" lang="fr-FR" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr-FR" lang="fr-FR" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr-FR" lang="fr-FR" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr-FR" class="no-js no-details" lang="fr-FR"><!--<![endif]--><head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=8,chrome=1">
+    
+    
+    
+    <link rel="shortcut icon" type="image/png" href="https://concours.dgfip.finances.gouv.fr/teleinscription/application/img/favicon.ico">
+    <script type="text/javascript">
+    
+    
+            /*<![CDATA[*/
+            history.forward();
+            
+            /*]]>*/
+            
+            var composantsrepertoire =  "/teleinscription//composants/";
+            
+    </script>
+    
+
+    <script type="text/javascript" src="inscrConcours_fichiers/iepngfix_tilebg.js"></script>
+    
+    
+<style type="text/css">@import url("/teleinscription//application/css/teleinscription.css");</style>
+<style type="text/css">@import url("/teleinscription//application/css/applitags.css");</style>
+<script type="text/javascript" src="inscrConcours_fichiers/tagsapp.js"></script>
+<script type="text/javascript" src="inscrConcours_fichiers/jquery-1.js"></script>
+<script type="text/javascript" src="inscrConcours_fichiers/jquery.js"></script>
+<script type="text/javascript" src="inscrConcours_fichiers/bootstrap-tooltip.js"></script>
+<script type="text/javascript" src="inscrConcours_fichiers/page.js"></script>
+<style type="text/css">@import url("/teleinscription//composants/tagsapp/css/communcp.css");</style>
+<style type="text/css">@import url("/teleinscription//composants/tagsapp/css/Vtheme.css");</style>
+<style type="text/css">@import url("/teleinscription//composants/tagsapp/css/Htheme.css");</style>
+<style type="text/css">@import url("/teleinscription//composants/tagsapp/css/VEncadretheme.css");</style>
+<style type="text/css">@import url("/teleinscription//composants/tagsapp/css/HEncadretheme.css");</style>
+<style type="text/css">@import url("/teleinscription//composants/tagsapp/css/new_communcp.css");</style>
+    <style type="text/css">@import url("/teleinscription//composants/tagsapp/css/new/menu.css");</style>
+    <style type="text/css">@import url("/teleinscription/composants/extremecomponents/css/extremecomponents.css");</style>
+
+<script type="text/javascript" src="inscrConcours_fichiers/extremecomponents.js"></script>
+
+<style type="text/css">@import url("/teleinscription//composants/jscalendar/css/calendar-blue.css");</style>
+<script type="text/javascript" src="inscrConcours_fichiers/calendar.js"></script>
+<script type="text/javascript" src="inscrConcours_fichiers/calendar-fr.js"></script>
+<script type="text/javascript" src="inscrConcours_fichiers/calendar-setup.js"></script>
+
+<script type="text/javascript" src="inscrConcours_fichiers/popup.js"></script>
+
+<script type="text/javascript" src="inscrConcours_fichiers/objectpopuppdf.js"></script>
+
+
+
+<script type="text/javascript" src="inscrConcours_fichiers/controles.js"></script>
+<script type="text/javascript" src="inscrConcours_fichiers/html5.js"></script>
+ <!--[if lt IE 8]>
+    <link rel="stylesheet" href="/teleinscription//composants/tagsapp/css/new/iefix.css?v2">
+<![endif]-->
+
+<title>TéléInscription</title>
+</head>
+<!-- correctif forum 22-11-12 -->
+<body onload="initbody()">
+<noscript><p>Javascript désactivé. Application inutilisable</p></noscript>
+
+<!-- commentaires conditionnels pour connaitre la version d'internet explorer -->
+    <!--[if lt IE 7]>      <span class="ie-version no-js lt-ie9 lt-ie8 lt-ie7"></span> <![endif]-->
+    <!--[if IE 7]>         <span class="ie-version no-js lt-ie9 lt-ie8"></span> <![endif]-->
+    <!--[if IE 8]>         <span class="ie-version no-js lt-ie9"></span> <![endif]-->
+    <!--[if gt IE 8]><!--> <div class="ie-version no-js"></div> <!--<![endif]-->
+
+<div style="display:none;">
+    <p id="appli-version">V21R02</p>
+    <p id="appli-libellelong">Application des teleinscriptions</p>                
+    <p id="personneannuaire-cn">Nom : </p>   
+    <p id="personneannuaire-fonction">Fonction : </p>  
+    <p id="expirationhabilitation">Expiration habilitation : </p>    
+</div>
+<div id="container" class="container">
+<div class="header">
+
+    <div class="logo">
+    <a data-original-title="Retour à la page d'accueil" href="https://concours.dgfip.finances.gouv.fr/teleinscription">
+	        <img src="inscrConcours_fichiers/ministere.jpg" alt="Inscriptions aux concours de la DGFiP">  
+	    </a>
+	</div>
+    
+    <div class="title">
+        <div class="boxtitle1">
+            <h1>Inscriptions aux concours de la DGFiP</h1>
+        </div>
+        <div class="boxtitle2">
+            <img src="inscrConcours_fichiers/DGFP.jpg" alt="Inscriptions aux concours de la DGFiP">
+        </div>    
+    </div>
+    
+</div><!-- menu new = true -->
+    <div id="donneesbox" class="donneescontainer">
+    <div class="chemincontainer">
+	 	<a data-original-title="" href="javascript:doit('/teleinscription/','_eventId_cancel')">Accueil</a>
+    &nbsp;&gt;&nbsp;Créer une inscription<table class="etapes">
+		      <tbody><tr>
+		 	     <td class="etape_precedente etape_first">
+		 	            Etape 1</td>      
+		 	     <td class="etape_courante">
+		 	            Etape 2</td>      
+		 	     <td class="etape">
+		 	            Etape 3</td>      
+		 	     <td class="etape_fin">
+		 	            Etape 4</td>      
+		 	     </tr>
+	 	   </tbody></table>
+	 	</div>
+<script type="text/javascript" src="inscrConcours_fichiers/subscribeCompetitionDiplomaAndOptions.js"></script>
+	
+	<div id="donnees" class="donnees">	
+<form class="appForm" method="post" enctype="application/x-www-form-urlencoded" action="/teleinscription/flux.ex" id="formulaire" onsubmit="return submit_form(500)" autocomplete="off">
+<div>
+<input name="_flowExecutionKey" value="e1s6" type="hidden">
+<input name="nomdufluxencours" value="aucun" type="hidden">
+<input name="transitiondemandee" value="aucun" type="hidden">
+</div>
+<div class="one_column">
+			<div class="box">
+			
+                <div class="title orange">Créer une inscription</div>
+                
+				<div class="box_contenu">
+
+					<div class="title_subscription">
+						CONTRÔLEUR EXTERNE FIP 2EME CLASSE, millésime 2016</div>
+
+					<br>
+
+					<div>
+						<strong>Diplôme le plus élevé :</strong>
+					</div>
+
+					<div class="Vrequis" style="width: 100%;height: auto;_height: auto;min-height: auto;">
+    <div class="boxlblText" style="width: 100px;">
+		    <label class="labelText" for="choixDiplome">Diplôme : *</label>
+	    </div>
+    <div class="boxText" style="width: 240px;">
+    <select onkeypress="return submitEnterButton(event)" id="choixDiplome" name="inscriptionDTO.cdiplome">
+<option value="-999999">A choisir</option>
+	<option value="200">BACCALAUREAT ENSEIGNEMENT 2ND DEGRE</option>
+		<option value="205">BACCALAUREAT PROFESSIONNEL</option>
+		<option value="206">BACCALAUREAT TECHNOLOGIQUE</option>
+		<option value="290">BREVET DE TECHNICIEN SUPERIEUR</option>
+		<option value="369">DIPL D'ETUDES UNIVERSIT.SCIENTIFIQUES,TECHN.</option>
+		<option value="771">DIPLOME D'ETUDES APPROFONDIES</option>
+		<option value="558">DIPLOME D'ETUDES UNIVERSITAIRES GENERALES</option>
+		<option value="851">DIPLOME DE GRANDES ECOLES</option>
+		<option value="746">DIPLOME ETUDES SUPERIEURES SPECIALISEES</option>
+		<option value="370">DIPLOME UNIVERSITAIRE DE TECHNOLOGIE</option>
+		<option value="759">DOCTORAT D'ETAT</option>
+		<option selected="selected" value="642">LICENCE ECONOMIE, POLITIQUE, GESTION, DROIT</option>
+		<option value="624">LICENCE INFORMATIQUE</option>
+		<option value="643">LICENCE LETTRES, SCIENCES HUMAINES, LANGUES</option>
+		<option value="641">LICENCE SCIENCES, TECHNIQUE, MATHÉMATIQUES</option>
+		<option value="644">LICENCES NIVEAU II OU EQUIVALENT</option>
+		<option value="724">MAITRISE D'INFORMATIQUE</option>
+		<option value="717">MAITRISE ECONOMIE, POLITIQUE, GESTION, DROIT</option>
+		<option value="718">MAITRISE LETTRES, SCIENCES HUMAINES, LANGUES</option>
+		<option value="716">MAITRISE SCIENCES, TECHNIQUE, MATHÉMATIQUES</option>
+		<option value="762">MASTER D'INFORMATIQUE</option>
+		<option value="764">MASTER ECONOMIE, POLITIQUE, GESTION, DROIT</option>
+		<option value="765">MASTER LETTRES, SCIENCES HUMAINES, LANGUES</option>
+		<option value="763">MASTER SCIENCES, TECHNIQUE, MATHEMATIQUES</option>
+		<option value="aucunDipl">Aucun diplôme ou niveau de diplôme insuffisant</option>
+		<option value="autreDipl">Autre diplôme (niveau suffisant)</option>
+		</select>
+</div>
+    </div>
+
+<br> <br> <br>
+
+					<div>
+						Si votre diplôme ne vous permet pas de vous présenter à ce
+						concours, vous pourrez toutefois vous inscrire si vous êtes dans l'une des situations
+						suivantes :
+						<p>- père ou mère d'au moins trois enfants
+						</p><p>- sportif de haut niveau
+						</p><p>- expérience professionnelle / formation (décret n° 2007-196 du 13/02/2007).
+						</p><p>Dans ce cas, sélectionnez dans la rubrique Diplôme le choix
+							"Aucun diplôme ou diplôme de niveau insuffisant" et choisissez le
+							cas dérogatoire qui vous correspond.
+					</p></div>
+
+					<br>
+
+					<div class="two_columns blocDiplome" style="">
+
+						<div style="display: none;" class="column_left autreDiplome">
+							<div class="Vrequis" style="width: 100%;height: auto;_height: auto;min-height: auto;">
+    <div class="boxlblText" style="width: 35%;">
+		    <label class="labelText" for="autreDiplome">
+	           Autre diplôme :  *</label>
+	    </div>
+    <div class="boxText" style="width: 50%;">
+    <input class="inputText" onkeypress="return submitEnterButton(event)" size="50" id="autreDiplome" maxlength="45" name="inscriptionDTO.ldiplomeHorsregl" type="text">
+</div>
+    
+    </div>
+
+</div>
+
+						<div class="column_right">
+						    <div style="display: block;" class="obtentionBox">
+								<div class="Vrequis" style="width: 100%;height: auto;_height: auto;min-height: auto;">
+    <div class="boxlblText" style="width: 35%;">
+		    <label class="labelText" for="anneeObtention">
+	           Année d'obtention :  *</label>
+	    </div>
+    <div class="boxText" style="width: 50%;">
+    <input value="2001" class="inputText" onkeypress="return submitEnterButton(event)" size="50" id="anneeObtention" maxlength="255" name="inscriptionDTO.dandipl" type="text">
+</div>
+    
+    </div>
+
+<div class="Vrequis" style="width: 100%;height: auto;_height: auto;min-height: auto;">
+    <div class="boxlblText" style="width: 35%;">
+		    <label class="labelText" for="paysObtention">
+	           Pays d'obtention :  *</label>
+	    </div>
+    <div class="boxText" style="width: 50%;">
+    <input class="inputText" onkeypress="return submitEnterButton(event)" size="50" id="paysObtention" maxlength="45" name="inscriptionDTO.lpaysobt" value="France" type="text">
+</div>
+    
+    </div>
+
+</div>
+							<div class="Vnormal" style="width: 100%;height: auto;_height: auto;min-height: auto;">
+    <div class="boxlblGrpRadioChk" style="width: 158px;">
+			<label class="lblGrpRadioChk">En cours d'obtention : </label>
+	    </div>
+    <div class="boxGrpRadioChk" style="width: 15px;" id="enCoursObtention">
+		
+	<label data-original-title="" for="enCoursObtention_1" class="lblRadioChk">
+            <input name="_inscriptionDTO.cetatdipl" type="hidden">
+	<input class="checkbox" onkeypress="return submitEnterButton(event)" id="enCoursObtention_1" name="inscriptionDTO.cetatdipl" value="TRUE" type="checkbox">
+		 </label>
+        </div>
+	</div>          
+
+</div>
+
+					</div>
+
+					<div class="blocDerogation blocMarge" style="display: none;">
+						<strong>Cas dérogatoires :</strong>
+					</div>
+
+					<div class="two_columns blocDerogation blocMarge" style="display: none;">
+
+						<div class="column_left">
+							<div class="Vnormal" style="width: 100%;height: auto;_height: auto;min-height: auto;">
+    <div class="boxlblGrpRadioChk" style="width: 300px;">
+            <label class="lblGrpRadioChk">Père et mère d'au moins trois enfants<p class="informationText" style="margin:0">(Veillez à la cohérence avec le nombre d’enfants indiqué lors de la création
+                                de votre compte) :</p></label>
+        </div>
+    <div class="boxGrpRadioChk" style="width: 15px; margin-top: 16px" id="id2">
+        
+    <label data-original-title="" for="id2_1" class="lblRadioChk">
+            <input name="_inscriptionDTO.amer3e" type="hidden">
+	<input class="checkbox" onkeypress="return submitEnterButton(event)" id="id2_1" name="inscriptionDTO.amer3e" value="TRUE" type="checkbox">
+		 </label>
+        </div>
+    </div>          
+
+</div>
+
+						<div class="column_right">
+							<div class="Vnormal" style="width: 100%;height: auto;_height: auto;min-height: auto;">
+    <div class="boxlblGrpRadioChk" style="width: 360px;">
+            <label class="lblGrpRadioChk">Expérience professionnelle / Formation <p style="margin:0">(décret n°2007-196 du 13/02/2007) : 
+        </p></label></div>
+    <div class="boxGrpRadioChk" style="width: 15px; margin-top: 16px" id="id3">
+        
+    <label data-original-title="" for="id3_1" class="lblRadioChk">
+            <input name="_inscriptionDTO.hasProfessionalExperience" type="hidden">
+	<input class="checkbox" onkeypress="return submitEnterButton(event)" id="id3_1" name="inscriptionDTO.hasProfessionalExperience" value="TRUE" type="checkbox">
+		 </label>
+        </div>
+    </div>          
+
+<div class="Vnormal" style="width: 100%;height: auto;_height: auto;min-height: auto;">
+    <div class="boxlblGrpRadioChk" style="width: 360px;">
+			<label class="lblGrpRadioChk">Sportif de haut niveau : </label>
+	    </div>
+    <div class="boxGrpRadioChk" style="width: 15px;" id="id4">
+		
+	<label data-original-title="" for="id4_1" class="lblRadioChk">
+            <input name="_inscriptionDTO.asporhn" type="hidden">
+	<input class="checkbox" onkeypress="return submitEnterButton(event)" id="id4_1" name="inscriptionDTO.asporhn" value="TRUE" type="checkbox">
+		 </label>
+        </div>
+	</div>          
+
+</div>
+
+					</div>
+
+					<div class="box_contenu">
+						<br>
+						<div>
+							<strong>Choix des matières et des options :</strong>
+						</div>
+						<div>
+							En cas d'options, vous trouverez toutes les informations utiles
+							sur les concours sur l'<a class="texte_orange" href="http://www.economie.gouv.fr/recrutement" target="_blank">Espace
+								recrutement par concours du portail de l'Economie et des Finances</a>.
+						</div>
+
+						<br>
+
+						<span>Pré-admissibilité :</span>
+
+							<div class="Vrequis" style="width: 100%;height: auto;_height: auto;min-height: auto;">
+    <div class="boxlblText" style="width: 100px;">
+		    <label class="labelText" for="id5">EPREUVE 1 : *</label>
+	    </div>
+    <div class="epreuveSelect" style="width: 50%;">
+    <select onkeypress="return submitEnterButton(event)" id="id5" name="inscriptionDTO.compositions['36-1-2016-1-1-1-0'].matiere.cmatref" disabled="disabled">
+<option value="-999999">--      ---</option>
+	<option selected="selected" value="011">QUESTIONNAIRES A CHOIX MULTIPLE</option>
+		</select>
+</div>
+    </div>
+
+<br>
+							<br>
+
+						<span>Admissibilité :</span>
+
+							<div class="Vrequis" style="width: 100%;height: auto;_height: auto;min-height: auto;">
+    <div class="boxlblText" style="width: 100px;">
+		    <label class="labelText" for="id6">EPREUVE 1 : *</label>
+	    </div>
+    <div class="epreuveSelect" style="width: 50%;">
+    <select onkeypress="return submitEnterButton(event)" id="id6" name="inscriptionDTO.compositions['36-1-2016-1-2-1-0'].matiere.cmatref" disabled="disabled">
+<option value="-999999">--      ---</option>
+	<option selected="selected" value="101">QUEST ET/OU CAS PRATIQUE CARACT ECO/FINANCIER</option>
+		</select>
+</div>
+    </div>
+
+<div class="Vrequis" style="width: 100%;height: auto;_height: auto;min-height: auto;">
+    <div class="boxlblText" style="width: 100px;">
+		    <label class="labelText" for="id7">EPREUVE 2 : *</label>
+	    </div>
+    <div class="epreuveSelect" style="width: 240px;">
+    <select onkeypress="return submitEnterButton(event)" id="id7" name="inscriptionDTO.compositions['36-1-2016-1-2-2-0'].matiere.cmatref">
+<option value="-999999">A choisir</option>
+	<option selected="selected" value="103">COMPOSITION ET/OU CAS PRATIQ BASES JURIDIQUES</option>
+		<option value="048">COMPOSITION ET/OU CAS PRATIQUES D' ECONOMIE</option>
+		<option value="042">COMPTABILITÉ PRIVÉE</option>
+		<option value="030">MATHÉMATIQUES</option>
+		</select>
+</div>
+    </div>
+
+<div class="Vrequis" style="width: 100%;height: auto;_height: auto;min-height: auto;">
+    <div class="boxlblText" style="width: 100px;">
+		    <label class="labelText" for="id8">EPREUVE 3 : *</label>
+	    </div>
+    <div class="epreuveSelect" style="width: 240px;">
+    <select onkeypress="return submitEnterButton(event)" id="id8" name="inscriptionDTO.compositions['36-1-2016-1-2-3-0'].matiere.cmatref">
+<option value="-999999">A choisir</option>
+	<option value="Aucune">Aucune</option>
+		<option value="050">VERSION ALLEMANDE</option>
+		<option value="051">VERSION ANGLAISE</option>
+		<option selected="selected" value="052">VERSION ESPAGNOLE</option>
+		<option value="053">VERSION ITALIENNE</option>
+		</select>
+</div>
+    </div>
+
+<br>
+							<br>
+
+						<span>Admission :</span>
+
+							<div class="Vrequis" style="width: 100%;height: auto;_height: auto;min-height: auto;">
+    <div class="boxlblText" style="width: 100px;">
+		    <label class="labelText" for="id9">EPREUVE 1 : *</label>
+	    </div>
+    <div class="epreuveSelect" style="width: 50%;">
+    <select onkeypress="return submitEnterButton(event)" id="id9" name="inscriptionDTO.compositions['36-1-2016-1-3-1-0'].matiere.cmatref" disabled="disabled">
+<option value="-999999">--      ---</option>
+	<option selected="selected" value="064">ENTRETIEN MOTIVATIONS APTITUDE AUX FONCTIONS</option>
+		</select>
+</div>
+    </div>
+
+</div>
+
+					<br>
+					<div class="box_contenu">
+					   <div>
+                            <strong>Choix du centre d'examen :</strong>
+                        </div>
+                        <div class="Vrequis" style="width: 100%;height: auto;_height: auto;min-height: auto;">
+    <div class="boxlblText" style="width: 100px;">
+		    <label class="labelText" for="id10">Centre : *</label>
+	    </div>
+    <div class="boxText" style="width: 240px;">
+    <select onkeypress="return submitEnterButton(event)" id="id10" name="inscriptionDTO.ccentexa">
+<option value="-999999">A choisir</option>
+	<option value="TWF">CENTRE DE MATA'UTU</option>
+		<option value="2A0">CENTRE D'EXAMEN D'AJACCIO</option>
+		<option value="800">CENTRE D'EXAMEN D'AMIENS</option>
+		<option selected="selected" value="971">CENTRE D'EXAMEN DE BASSE-TERRE</option>
+		<option value="250">CENTRE D'EXAMEN DE BESANCON</option>
+		<option value="930">CENTRE D'EXAMEN DE BOBIGNY</option>
+		<option value="330">CENTRE D'EXAMEN DE BORDEAUX</option>
+		<option value="140">CENTRE D'EXAMEN DE CAEN</option>
+		<option value="973">CENTRE D'EXAMEN DE CAYENNE</option>
+		<option value="510">CENTRE D'EXAMEN DE CHÂLONS-EN-CHAMPAGNE</option>
+		<option value="630">CENTRE D'EXAMEN DE CLERMONT-FERRAND</option>
+		<option value="940">CENTRE D'EXAMEN DE CRETEIL</option>
+		<option value="210">CENTRE D'EXAMEN DE DIJON</option>
+		<option value="972">CENTRE D'EXAMEN DE FORT-DE-FRANCE</option>
+		<option value="591">CENTRE D'EXAMEN DE LILLE</option>
+		<option value="870">CENTRE D'EXAMEN DE LIMOGES</option>
+		<option value="690">CENTRE D'EXAMEN DE LYON</option>
+		<option value="976">CENTRE D'EXAMEN DE MAMOUDZOU</option>
+		<option value="131">CENTRE D'EXAMEN DE MARSEILLE</option>
+		<option value="570">CENTRE D'EXAMEN DE METZ</option>
+		<option value="340">CENTRE D'EXAMEN DE MONTPELLIER</option>
+		<option value="921">CENTRE D'EXAMEN DE NANTERRE</option>
+		<option value="440">CENTRE D'EXAMEN DE NANTES</option>
+		<option value="988">CENTRE D'EXAMEN DE NOUMEA</option>
+		<option value="987">CENTRE D'EXAMEN DE PAPEETE</option>
+		<option value="754">CENTRE D'EXAMEN DE PARIS</option>
+		<option value="860">CENTRE D'EXAMEN DE POITIERS</option>
+		<option value="350">CENTRE D'EXAMEN DE RENNES</option>
+		<option value="760">CENTRE D'EXAMEN DE ROUEN</option>
+		<option value="975">CENTRE D'EXAMEN DE ST-PIERRE ET MIQUELON</option>
+		<option value="670">CENTRE D'EXAMEN DE STRASBOURG</option>
+		<option value="310">CENTRE D'EXAMEN DE TOULOUSE</option>
+		<option value="450">CENTRE D'EXAMEN D'ORLEANS</option>
+		<option value="TGE">CENTRE D'EXAMEN POUR L'ETRANGER</option>
+		<option value="974">CENTRE D'EXAMEN ST-DENIS DE LA REUNION</option>
+		</select>
+</div>
+    </div>
+
+<br> <br> <br>
+                        <div>
+                            Ce choix n'engage pas l'administration, il sera pris en compte sous réserve 
+                            de places disponibles. A défaut, vous serez rattaché(e) au centre de votre 
+                            département de résidence
+                        </div>
+                    </div>
+					<br>
+					<div class="champ_obl">
+   (*) Champs obligatoires</div>
+<div class="boxboutons">
+		<input name="_eventId_cancel" value="Annuler" onclick="javascript:stocketransition('_eventId_cancel');removeInputEventId();initecevefn();" class="submit" onkeypress="javascript:stocketransition('_eventId_cancel');removeInputEventId();initecevefn();" onmousedown="javascript:stocketransition('_eventId_cancel');removeInputEventId();initecevefn();" type="submit">
+			<input name="_eventId_back" value="Retour" onclick="javascript:stocketransition('_eventId_back');removeInputEventId();initecevefn();" class="submit" onkeypress="javascript:stocketransition('_eventId_back');removeInputEventId();initecevefn();" onmousedown="javascript:stocketransition('_eventId_back');removeInputEventId();initecevefn();" type="submit">
+			<input name="_eventId_step2" value="Suivant" onclick="javascript:stocketransition('_eventId_step2');removeInputEventId();initecevefn();" class="submit" onkeypress="javascript:stocketransition('_eventId_step2');removeInputEventId();initecevefn();" onmousedown="javascript:stocketransition('_eventId_step2');removeInputEventId();initecevefn();" type="submit">
+			</div>
+</div>
+			</div>
+		</div>
+	</form>
+
+</div>
+<div id="pleaseWait" class="pleaseWaitLoader" style="top:40%" tabindex="1" autofocus="">
+<h1>
+<a href="#" id="waitMsg">    Requête en cours de traitement. Patientez ...</a>
+</h1>
+<img id="waitimg" src="inscrConcours_fichiers/loading_128.gif" alt="Attente">
+</div>
+
+<div id="overlay">&nbsp;</div>
+</div>
+    </div>
+<div class="teleinscription_piedpagecontainer">
+	   <p class="textepiedpage">© Ministère des finances et des comptes publics</p>
+	</div>
+</body></html>

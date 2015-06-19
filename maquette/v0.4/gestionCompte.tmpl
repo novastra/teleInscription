@@ -1,0 +1,663 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="fr"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="author" content="DGFiP - Cap Numerique">
+		<meta name="contact" content="Nicolas Alliot">
+		<meta name="description" content="Maquette inscription en ligne"> 
+        <title>TELE-INSCRIPTION DGFiP</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="css/main.css">        
+		<link rel="stylesheet" href="css/jquery-ui.min.css">
+
+        <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+
+    </head>
+    <body>
+        <!--[if lt IE 8]>
+            <p class="browserupgrade">Vous utilisez un navigateur <strong>obsolète</strong>. <a href="http://browsehappy.com/">Mettez à jour</a> ce dernier pour améliorer votre sécurité et confort de navigation.</p>
+        <![endif]-->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+		  <button id="menuTrig" class="menuTrig1">
+		  <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
+		  Menu</button>
+          <div class="titreZone"><h1 href="#">Mon compte</h1></div>
+        </div>
+		
+		<div id="menu" class="menu">
+		<ul>
+			<li><a href="index.html"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> Accueil</a></li>
+			<li><a href="gestionCompte.html"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Gérer mon compte</a></li>
+			<li><a href="gestionConcours.html"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Gérer mes concours</a></li>
+			<li><a href="inscriptionConcours.html"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> S'inscrire à un concours</a></li>
+			<li><a ><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> Informations</a></li>
+			<li><a ><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> Contact</a></li>
+			<li><a href="connexion.html" class="deco"><span class="glyphicon glyphicon-off" aria-hidden="true"></span> Se déconnecter</a></li>
+		</ul>
+		</div>
+	
+      </div>
+    </nav>
+
+    <div id="tabs" class="container">
+      <!-- Example row of columns -->
+    <div class="row contInscr">
+  <ul class="conTabs">
+    <li><a href="#infoGeneral">Général</a></li>
+    <li><a href="#infoEtatCivil">État civil</a></li>
+    <li><a href="#infoCoordonnees">Coordonnées</a></li>
+    <li><a href="#infoArmee">Armée</a></li>
+    <li id="educError"><a href="#infoDiplome">Diplômes</a></li>
+    <li class="facultatif"><a href="#infoHandicap">Handicap</a></li>
+    <li class="facultatif"><a href="#infoAutre">Autre</a></li>
+  </ul>
+  <div id="infoGeneral">
+  
+  <div class="col-md-8 form-group">
+    <label for="ID_candidat">Identifiant :</label>
+    <input type="text" value='<TMPL_VAR NAME = "ID_candidat">' class="form-control" id="ID_candidat" name="name" disabled>
+  </div>  
+  <div class="col-md-4 form-group">
+    <label for="usage_FC">Compte lié à FranceConnect :</label>
+    <input type="text" value="Oui" class="form-control" id="usage_FC" disabled>
+  </div>
+  
+  <div class="col-md-6 form-group">
+    <label for="PWD_candidat">Modifier votre mot de passe :</label>
+	<button id="modifMdp" type="button" class="btn btn-default">Modifier</button>  </div>
+  <div id="containerMdp" style="display:none;" class="col-md-6 form-group">
+    <label for="PWD_candidat">Nouveau mot de passe :</label>
+    <input type="password"  class="form-control" id="PWD_candidat" name="password">
+    <label for="PWD_candidat2">Confirmer votre de passe :</label>
+    <input type="password"  class="form-control" id="PWD_candidat2">
+	<br>
+	<button id="validMdp" type="submit" class="btn btn-default">Valider</button>
+  </div>
+  
+  <div class="col-md-12 form-group"> 
+    <br><br>
+	<h4>Les informations suivantes peuvent être récupérées via FranceConnect :</h4>
+	<ul class="data-FC">
+        
+        <li class="accept"><b>État civil</b> (Ministère de l'Intérieur)</li>      
+        <li class="accept"><b>Coordonnées</b> (La Poste)</li>      
+        <li class="accept"><b>Situation militaire</b> (Ministère de la Défense)</li>
+        <li class="refus"><b>Diplômes</b> (Ministère de l'Éducation nationale)</li>
+        
+    </ul>
+	</div>
+  
+  <div class="col-md-12 form-group">
+  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#autorisationFC">
+  <span class="glyphicon glyphicon-refresh" aria-hidden="true"> </span> Actualiser avec FranceConnect</button>
+  </div>
+  
+  <!-- Modale autorisation France Connect -->
+<div class="modal fade" id="autorisationFC" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <img src="img/logoFC.png" width="250px" alt="">
+        </div>
+        <div class="modal-body">
+    <p class="h3">
+            Autorisez-vous
+            <b>le service d'inscription aux concours</b> à accéder aux informations vous concernant ? 
+    </p>
+    <ul class="h3 data-FC">
+        
+        <li><b>État civil</b> (Ministère de l'Intérieur)</li>      
+        <li><b>Coordonnées</b> (La Poste)</li>      
+        <li><b>Situation militaire</b> (Ministère de la Défense)</li>
+        <li><b>Diplômes</b> (Ministère de l'Éducation nationale)</li>
+        
+    </ul>
+    <br/>
+
+    <form id="oauth_form" class="row text-center" method="post">
+        
+<input type="submit" name="accept" class="btn btn-primary" value="Accepter"/>
+<input type="submit" name="cancel" class="btn btn-default" value="Refuser"/>
+
+        
+    </form>
+        </div>
+        <div class="modal-footer">
+		  <a id="cgu">Conditions Générales d'Utilisation</a>
+        </div>
+      </div>
+    </div>
+</div> 
+  </div>
+  
+  <div id="infoEtatCivil">
+  <form role="form">
+   <fieldset>
+  <legend>Votre état civil :</legend>
+    
+	<div class="col-md-12  form-group" value='<TMPL_VAR NAME = "sexe">' id="sexe">
+	<label>Civilité : *</label>
+	<div class="radio">
+	<label><input type="radio" name="civilite" <TMPL_VAR NAME="sexe_m">>M.</label>
+	</div>
+	<div class="radio">
+	<label><input type="radio" name="civilite" <TMPL_VAR NAME="sexe_f">>Mme</label>
+	</div>
+	</div>
+  
+  <div class="col-md-6 form-group">
+    <label for="nom">Nom de famille : *</label>
+    <input type="text" class="form-control" value='<TMPL_VAR NAME = "nom">' id="nom" name="name">
+  </div>
+  <div class="col-md-6 form-group">
+    <label for="nomUsag">Nom d'usage : </label>
+    <input type="text" class="form-control" value='<TMPL_VAR NAME = "nomUsag">' id="nomUsag">
+  </div>
+  <div class="col-md-6 form-group">
+    <label for="prenom">Prénom : *</label>
+    <input type="text" class="form-control" value='<TMPL_VAR NAME = "prenom">' id="prenom" name="firstname">
+  </div>
+  <div class="col-md-6 form-group">
+    <label for="prenom2">2e/3e prénoms : *</label>
+    <input type="text" class="form-control" value='<TMPL_VAR NAME = "prenom2">' id="prenom2" name="secondname">
+  </div>
+  
+  <div class="col-md-4 form-group">
+    <label for="dateNaissance">Date de naissance : *</label>
+    <input type="date" maxlength="10" size="10" placeholder="jj/mm/aaaa" class="form-control" value='<TMPL_VAR NAME = "dateNaissance">' id="dateNaissance" name="birthdate">
+  </div>
+  
+  <div class="col-md-4 form-group">
+    <label for="villeNaissance">Ville de naissance : *</label>
+    <input type="text" class="form-control" value='<TMPL_VAR NAME = "villeNaissance">' id="villeNaissance" name="Town">
+  </div>
+  
+  <div class="col-md-4 form-group">
+    <label for="departementNaissance">Département de naissance : *</label>
+    <select class="form-control" value='<TMPL_VAR NAME = "departementNaissance">' id="departementNaissance" name="departement">
+		<option value="01" <TMPL_VAR NAME="DPT_01_NAI">>01 AIN</option>
+		<option value="02" <TMPL_VAR NAME="DPT_02_NAI">>02 AISNE</option>
+		<option value="03" <TMPL_VAR NAME="DPT_03_NAI">>03 ALLIER</option>
+		<option value="04" <TMPL_VAR NAME="DPT_04_NAI">>04 ALPES DE HAUTE PROVENCE</option>
+		<option value="05" <TMPL_VAR NAME="DPT_05_NAI">>05 HAUTES ALPES</option>
+		<option value="06" <TMPL_VAR NAME="DPT_06_NAI">>06 ALPES MARITIMES</option>
+		<option value="07" <TMPL_VAR NAME="DPT_07_NAI">>07 ARDECHE</option>
+		<option value="08" <TMPL_VAR NAME="DPT_08_NAI">>08 ARDENNES</option>
+		<option value="09" <TMPL_VAR NAME="DPT_09_NAI">>09 ARIEGE</option>
+		<option value="10" <TMPL_VAR NAME="DPT_10_NAI">>10 AUBE</option>
+		<option value="11" <TMPL_VAR NAME="DPT_11_NAI">>11 AUDE</option>
+		<option value="12" <TMPL_VAR NAME="DPT_12_NAI">>12 AVEYRON</option>
+		<option value="13" <TMPL_VAR NAME="DPT_13_NAI">>13 BOUCHES-DU-RHONE</option>
+		<option value="14" <TMPL_VAR NAME="DPT_14_NAI">>14 CALVADOS</option>
+		<option value="15" <TMPL_VAR NAME="DPT_15_NAI">>15 CANTAL</option>
+		<option value="16" <TMPL_VAR NAME="DPT_16_NAI">>16 CHARENTE</option>
+		<option value="17" <TMPL_VAR NAME="DPT_17_NAI">>17 CHARENTE MARITIME</option>
+		<option value="18" <TMPL_VAR NAME="DPT_18_NAI">>18 CHER</option>
+		<option value="19" <TMPL_VAR NAME="DPT_19_NAI">>19 CORREZE</option>
+		<option value="201" <TMPL_VAR NAME="DPT_201_NAI">>201 CORSE DU SUD</option>
+		<option value="202" <TMPL_VAR NAME="DPT_202_NAI">>202 HAUTE-CORSE</option>
+		<option value="21" <TMPL_VAR NAME="DPT_21_NAI">>21 COTE D'OR</option>
+		<option value="22" <TMPL_VAR NAME="DPT_22_NAI">>22 COTES D'ARMOR</option>
+		<option value="23" <TMPL_VAR NAME="DPT_23_NAI">>23 CREUSE</option>
+		<option value="24" <TMPL_VAR NAME="DPT_24_NAI">>24 DORDOGNE</option>
+		<option value="25" <TMPL_VAR NAME="DPT_25_NAI">>25 DOUBS</option>
+		<option value="26" <TMPL_VAR NAME="DPT_26_NAI">>26 DROME</option>
+		<option value="27" <TMPL_VAR NAME="DPT_27_NAI">>27 EURE</option>
+		<option value="28" <TMPL_VAR NAME="DPT_28_NAI">>28 EURE ET LOIR</option>
+		<option value="29" <TMPL_VAR NAME="DPT_29_NAI">>29 FINISTERE</option>
+		<option value="30" <TMPL_VAR NAME="DPT_30_NAI">>30 GARD</option>
+		<option value="31" <TMPL_VAR NAME="DPT_31_NAI">>31 HAUTE GARONNE</option>
+		<option value="32" <TMPL_VAR NAME="DPT_32_NAI">>32 GERS</option>
+		<option value="33" <TMPL_VAR NAME="DPT_33_NAI">>33 GIRONDE</option>
+		<option value="34" <TMPL_VAR NAME="DPT_34_NAI">>34 HERAULT</option>
+		<option value="35" <TMPL_VAR NAME="DPT_35_NAI">>35 ILLE ET VILAINE</option>
+		<option value="36" <TMPL_VAR NAME="DPT_36_NAI">>36 INDRE</option>
+		<option value="37" <TMPL_VAR NAME="DPT_37_NAI">>37 INDRE ET LOIRE</option>
+		<option value="38" <TMPL_VAR NAME="DPT_38_NAI">>38 ISERE</option>
+		<option value="39" <TMPL_VAR NAME="DPT_39_NAI">>39 JURA</option>
+		<option value="40" <TMPL_VAR NAME="DPT_40_NAI">>40 LANDES</option>
+		<option value="41" <TMPL_VAR NAME="DPT_41_NAI">>41 LOIR ET CHER</option>
+		<option value="42" <TMPL_VAR NAME="DPT_42_NAI">>42 LOIRE</option>
+		<option value="43" <TMPL_VAR NAME="DPT_43_NAI">>43 HAUTE LOIRE</option>
+		<option value="44" <TMPL_VAR NAME="DPT_44_NAI">>44 LOIRE ATLANTIQUE</option>
+		<option value="45" <TMPL_VAR NAME="DPT_45_NAI">>45 LOIRET</option>
+		<option value="46" <TMPL_VAR NAME="DPT_46_NAI">>46 LOT</option>
+		<option value="47" <TMPL_VAR NAME="DPT_47_NAI">>47 LOT ET GARONNE</option>
+		<option value="48" <TMPL_VAR NAME="DPT_48_NAI">>48 LOZERE</option>
+		<option value="49" <TMPL_VAR NAME="DPT_49_NAI">>49 MAINE ET LOIRE</option>
+		<option value="50" <TMPL_VAR NAME="DPT_50_NAI">>50 MANCHE</option>
+		<option value="51" <TMPL_VAR NAME="DPT_51_NAI">>51 MARNE</option>
+		<option value="52" <TMPL_VAR NAME="DPT_52_NAI">>52 HAUTE MARNE</option>
+		<option value="53" <TMPL_VAR NAME="DPT_53_NAI">>53 MAYENNE</option>
+		<option value="54" <TMPL_VAR NAME="DPT_54_NAI">>54 MEURTHE ET MOSELLE</option>
+		<option value="55" <TMPL_VAR NAME="DPT_55_NAI">>55 MEUSE</option>
+		<option value="56" <TMPL_VAR NAME="DPT_56_NAI">>56 MORBIHAN</option>
+		<option value="57" <TMPL_VAR NAME="DPT_57_NAI">>57 MOSELLE</option>
+		<option value="58" <TMPL_VAR NAME="DPT_58_NAI">>58 NIEVRE</option>
+		<option value="59" <TMPL_VAR NAME="DPT_59_NAI">>59 NORD</option>
+		<option value="60" <TMPL_VAR NAME="DPT_60_NAI">>60 OISE</option>
+		<option value="61" <TMPL_VAR NAME="DPT_61_NAI">>61 ORNE</option>
+		<option value="62" <TMPL_VAR NAME="DPT_62_NAI">>62 PAS DE CALAIS</option>
+		<option value="63" <TMPL_VAR NAME="DPT_63_NAI">>63 PUY DE DOME</option>
+		<option value="64" <TMPL_VAR NAME="DPT_64_NAI">>64 PYRÉNÉES ATLANTIQUES</option>
+		<option value="65" <TMPL_VAR NAME="DPT_65_NAI">>65 HAUTES PYRÉNÉES</option>
+		<option value="66" <TMPL_VAR NAME="DPT_66_NAI">>66 PYRÉNÉES ORIENTALES</option>
+		<option value="67" <TMPL_VAR NAME="DPT_67_NAI">>67 BAS RHIN</option>
+		<option value="68" <TMPL_VAR NAME="DPT_68_NAI">>68 HAUT RHIN</option>
+		<option value="69" <TMPL_VAR NAME="DPT_69_NAI">>69 RHONE</option>
+		<option value="70" <TMPL_VAR NAME="DPT_70_NAI">>70 HAUTE SAONE</option>
+		<option value="71" <TMPL_VAR NAME="DPT_71_NAI">>71 SAONE ET LOIRE</option>
+		<option value="72" <TMPL_VAR NAME="DPT_72_NAI">>72 SARTHE</option>
+		<option value="73" <TMPL_VAR NAME="DPT_73_NAI">>73 SAVOIE</option>
+		<option value="74" <TMPL_VAR NAME="DPT_74_NAI">>74 HAUTE SAVOIE</option>
+		<option value="75" <TMPL_VAR NAME="DPT_75_NAI">>75 PARIS</option>
+		<option value="76" <TMPL_VAR NAME="DPT_76_NAI">>76 SEINE MARITIME</option>
+		<option value="77" <TMPL_VAR NAME="DPT_77_NAI">>77 SEINE ET MARNE</option>
+		<option value="78" <TMPL_VAR NAME="DPT_78_NAI">>78 YVELINES</option>
+		<option value="79" <TMPL_VAR NAME="DPT_79_NAI">>79 DEUX SEVRES</option>
+		<option value="80" <TMPL_VAR NAME="DPT_80_NAI">>80 SOMME</option>
+		<option value="81" <TMPL_VAR NAME="DPT_81_NAI">>81 TARN</option>
+		<option value="82" <TMPL_VAR NAME="DPT_82_NAI">>82 TARN ET GARONNE</option>
+		<option value="83" <TMPL_VAR NAME="DPT_83_NAI">>83 VAR</option>
+		<option value="84" <TMPL_VAR NAME="DPT_84_NAI">>84 VAUCLUSE</option>
+		<option value="85" <TMPL_VAR NAME="DPT_85_NAI">>85 VENDEE</option>
+		<option value="86" <TMPL_VAR NAME="DPT_86_NAI">>86 VIENNE</option>
+		<option value="87" <TMPL_VAR NAME="DPT_87_NAI">>87 HAUTE VIENNE</option>
+		<option value="88" <TMPL_VAR NAME="DPT_88_NAI">>88 VOSGES</option>
+		<option value="89" <TMPL_VAR NAME="DPT_89_NAI">>89 YONNE</option>
+		<option value="90" <TMPL_VAR NAME="DPT_90_NAI">>90 TERRITOIRE DE BELFORT</option>
+		<option value="91" <TMPL_VAR NAME="DPT_91_NAI">>91 ESSONNE</option>
+		<option value="92" <TMPL_VAR NAME="DPT_92_NAI">>92 HAUTS DE SEINE</option>
+		<option value="93" <TMPL_VAR NAME="DPT_93_NAI">>93 SEINE SAINT DENIS</option>
+		<option value="94" <TMPL_VAR NAME="DPT_94_NAI">>94 VAL DE MARNE</option>
+		<option value="95" <TMPL_VAR NAME="DPT_95_NAI">>95 VAL D'OISE</option>
+		<option value="971" <TMPL_VAR NAME="DPT_971_NAI">>971 GUADELOUPE</option>
+		<option value="972" <TMPL_VAR NAME="DPT_972_NAI">>972 MARTINIQUE</option>
+		<option value="973" <TMPL_VAR NAME="DPT_973_NAI">>973 GUYANE</option>
+		<option value="974" <TMPL_VAR NAME="DPT_974_NAI">>974 REUNION</option>
+		<option value="975" <TMPL_VAR NAME="DPT_975_NAI">>975 SAINT PIERRE ET MIQUELON</option>
+		<option value="976" <TMPL_VAR NAME="DPT_976_NAI">>976 MAYOTTE</option>
+		<option value="986" <TMPL_VAR NAME="DPT_986_NAI">>986 WALLIS ET FUTUNA</option>
+		<option value="987" <TMPL_VAR NAME="DPT_987_NAI">>987 POLYNESIE FRANCAISE</option>
+		<option value="988" <TMPL_VAR NAME="DPT_988_NAI">>988 NOUVELLE-CALEDONIE</option>
+		<option value="99" <TMPL_VAR NAME="DPT_99_NAI">>99 AUTRES</option>
+		<option value="999" <TMPL_VAR NAME="DPT_999_NAI">>999 ETRANGER</option>
+    </select>
+  </div>
+  
+  	<div class="col-md-6 form-group" value='<TMPL_VAR NAME = "nationalite">' id="nationalite">
+	<label>Nationalité : *</label>
+	<div class="radio">
+	<label><input type="radio" name="nationalite" <TMPL_VAR NAME="nationalite_francaise">>Nationalité française</label>
+	</div>
+	<div class="radio">
+	<label><input type="radio" name="nationalite" <TMPL_VAR NAME="nationalite_UE">>Ressortissant UE</label>
+	</div>
+	<div class="radio">
+	<label><input type="radio" name="nationalite" <TMPL_VAR NAME="nationalite_autre">>Autre nationalité</label>
+	</div>
+	</div>
+	
+	  <div class="col-md-6 form-group">
+    <label for="paysNaissance">Pays : *</label>
+    <select class="form-control" value='<TMPL_VAR NAME = "paysNaissance">' id="paysNaissance" name="country">
+    	<option value="1">ALLEMAGNE</option>
+		<option value="2">AUTRICHE</option>
+		<option value="3">BELGIQUE</option>
+		<option value="4">BULGARIE</option>
+		<option value="5">CHYPRE</option>
+		<option value="6">DANEMARK</option>
+		<option value="7">ESPAGNE</option>
+		<option value="8">ESTONIE</option>
+		<option value="9">FINLANDE</option>
+		<option value="10" selected>FRANCE</option>
+		<option value="30">GRECE</option>
+		<option value="11">HONGRIE</option>
+		<option value="12">IRLANDE</option>
+		<option value="13">ISLANDE</option>
+		<option value="14">ITALIE</option>
+		<option value="15">LETTONIE</option>
+		<option value="16">LIECHTENSTEIN</option>
+		<option value="17">LITUANIE</option>
+		<option value="18">LUXEMBOURG</option>
+		<option value="19">MALTE</option>
+		<option value="20">NORVEGE</option>
+		<option value="21">PAYS-BAS</option>
+		<option value="22">POLOGNE</option>
+		<option value="23">PORTUGAL</option>
+		<option value="97">PRINCIPAUTE ANDORRE</option>
+		<option value="98">PRINCIPAUTE MONACO</option>
+		<option value="24">REPUBLIQUE TCHEQUE</option>
+		<option value="25">ROUMANIE</option>
+		<option value="26">ROYAUME-UNI</option>
+		<option value="27">SLOVAQUIE</option>
+		<option value="28">SLOVENIE</option>
+		<option value="29">SUEDE</option>
+		<option value="99">SUISSE</option>
+    </select>
+  </div>
+	
+ </fieldset>
+  </form>
+
+
+  </div>
+  
+  
+  <div id="infoCoordonnees">
+  <form role="form">
+  <fieldset>
+  <legend>Vos coordonnées :</legend>
+  
+  <div class="col-md-2 form-group">
+    <label for="numVoieHab">Numéro de voie : </label>
+    <input type="text" class="form-control" value='<TMPL_VAR NAME = "numVoieHab">' id="numVoieHab" name="numVoie">
+  </div>
+  <div class="col-md-10 form-group">
+    <label for="addresseHab">Voie : </label>
+    <input type="text" class="form-control" value='<TMPL_VAR NAME = "addresseHab">' id="addresseHab" name="address">
+  </div>
+    <div class="col-md-2 form-group">
+    <label for="indicNumVoieHab">Indice de répétition : </label>
+    <select class="form-control" value='<TMPL_VAR NAME = "indicNumVoieHab">' id="indicNumVoieHab" name="indice">
+	<option>bis</option>
+	<option>ter</option>
+	<option>quater</option>
+	<option>etc</option>
+    </select>
+  </div>
+  <div class="col-md-10 form-group">
+    <label for="addresseHab2">Complément d'addresse : </label>
+    <input type="text" class="form-control" value='<TMPL_VAR NAME = "addresseHab2">' id="addresseHab2" name="address2">
+  </div>
+  <div class="col-md-6 form-group">
+    <label for="communeHab">Commune : *</label>
+    <input type="text" class="form-control" value='<TMPL_VAR NAME = "communeHab">' id="communeHab" name="city">
+  </div>
+  <div class="col-md-6 form-group">
+    <label for="codePostalHab">Code postal : *</label>
+    <input type="text" class="form-control" value='<TMPL_VAR NAME = "codePostalHab">' id="codePostalHab" name="postal">
+  </div>
+  <div class="col-md-6 form-group">
+    <label for="paysHab">Pays : *</label>
+    <select class="form-control" value='' id="paysHab" name="country">
+		<option value="1" <TMPL_VAR NAME = "PAYS_1_SEL">>ALLEMAGNE</option>
+		<option value="2" <TMPL_VAR NAME = "PAYS_2_SEL">>AUTRICHE</option>
+		<option value="3" <TMPL_VAR NAME = "PAYS_3_SEL">>BELGIQUE</option>
+		<option value="4" <TMPL_VAR NAME = "PAYS_4_SEL">>BULGARIE</option>
+		<option value="5" <TMPL_VAR NAME = "PAYS_5_SEL">>CHYPRE</option>
+		<option value="6" <TMPL_VAR NAME = "PAYS_6_SEL">>DANEMARK</option>
+		<option value="7" <TMPL_VAR NAME = "PAYS_7_SEL">>ESPAGNE</option>
+		<option value="8" <TMPL_VAR NAME = "PAYS_8_SEL">>ESTONIE</option>
+		<option value="9" <TMPL_VAR NAME = "PAYS_9_SEL">>FINLANDE</option>
+		<option value="10" <TMPL_VAR NAME = "PAYS_10_SEL">>FRANCE</option>
+		<option value="30" <TMPL_VAR NAME = "PAYS_30_SEL">>GRECE</option>
+		<option value="11" <TMPL_VAR NAME = "PAYS_11_SEL">>HONGRIE</option>
+		<option value="12" <TMPL_VAR NAME = "PAYS_12_SEL">>IRLANDE</option>
+		<option value="13" <TMPL_VAR NAME = "PAYS_13_SEL">>ISLANDE</option>
+		<option value="14" <TMPL_VAR NAME = "PAYS_14_SEL">>ITALIE</option>
+		<option value="15" <TMPL_VAR NAME = "PAYS_15_SEL">>LETTONIE</option>
+		<option value="16" <TMPL_VAR NAME = "PAYS_16_SEL">>LIECHTENSTEIN</option>
+		<option value="17" <TMPL_VAR NAME = "PAYS_17_SEL">>LITUANIE</option>
+		<option value="18" <TMPL_VAR NAME = "PAYS_18_SEL">>LUXEMBOURG</option>
+		<option value="19" <TMPL_VAR NAME = "PAYS_19_SEL">>MALTE</option>
+		<option value="20" <TMPL_VAR NAME = "PAYS_20_SEL">>NORVEGE</option>
+		<option value="21" <TMPL_VAR NAME = "PAYS_21_SEL">>PAYS-BAS</option>
+		<option value="22" <TMPL_VAR NAME = "PAYS_22_SEL">>POLOGNE</option>
+		<option value="23" <TMPL_VAR NAME = "PAYS_23_SEL">>PORTUGAL</option>
+		<option value="97" <TMPL_VAR NAME = "PAYS_97_SEL">>PRINCIPAUTE ANDORRE</option>
+		<option value="98" <TMPL_VAR NAME = "PAYS_98_SEL">>PRINCIPAUTE MONACO</option>
+		<option value="24" <TMPL_VAR NAME = "PAYS_24_SEL">>REPUBLIQUE TCHEQUE</option>
+		<option value="25" <TMPL_VAR NAME = "PAYS_25_SEL">>ROUMANIE</option>
+		<option value="26" <TMPL_VAR NAME = "PAYS_26_SEL">>ROYAUME-UNI</option>
+		<option value="27" <TMPL_VAR NAME = "PAYS_27_SEL">>SLOVAQUIE</option>
+		<option value="28" <TMPL_VAR NAME = "PAYS_28_SEL">>SLOVENIE</option>
+		<option value="29" <TMPL_VAR NAME = "PAYS_29_SEL">>SUEDE</option>
+		<option value="99" <TMPL_VAR NAME = "PAYS_99_SEL">>SUISSE</option>
+    </select>
+  </div>
+  <div class="col-md-6 form-group">
+    <label for="departementHab">Département : *</label>
+    <select class="form-control" value='' id="departementHab" name="departement">
+		<option value="01" <TMPL_VAR NAME = "DEP_01_SEL">>01 AIN</option>
+		<option value="02" <TMPL_VAR NAME = "DEP_02_SEL">>02 AISNE</option>
+		<option value="03" <TMPL_VAR NAME = "DEP_03_SEL">>03 ALLIER</option>
+		<option value="04" <TMPL_VAR NAME = "DEP_04_SEL">>04 ALPES DE HAUTE PROVENCE</option>
+		<option value="05" <TMPL_VAR NAME = "DEP_05_SEL">>05 HAUTES ALPES</option>
+		<option value="06" <TMPL_VAR NAME = "DEP_06_SEL">>06 ALPES MARITIMES</option>
+		<option value="07" <TMPL_VAR NAME = "DEP_07_SEL">>07 ARDECHE</option>
+		<option value="08" <TMPL_VAR NAME = "DEP_08_SEL">>08 ARDENNES</option>
+		<option value="09" <TMPL_VAR NAME = "DEP_09_SEL">>09 ARIEGE</option>
+		<option value="10" <TMPL_VAR NAME = "DEP_10_SEL">>10 AUBE</option>
+		<option value="11" <TMPL_VAR NAME = "DEP_11_SEL">>11 AUDE</option>
+		<option value="12" <TMPL_VAR NAME = "DEP_12_SEL">>12 AVEYRON</option>
+		<option value="13" <TMPL_VAR NAME = "DEP_13_SEL">>13 BOUCHES-DU-RHONE</option>
+		<option value="14" <TMPL_VAR NAME = "DEP_14_SEL">>14 CALVADOS</option>
+		<option value="15" <TMPL_VAR NAME = "DEP_15_SEL">>15 CANTAL</option>
+		<option value="16" <TMPL_VAR NAME = "DEP_16_SEL">>16 CHARENTE</option>
+		<option value="17" <TMPL_VAR NAME = "DEP_17_SEL">>17 CHARENTE MARITIME</option>
+		<option value="18" <TMPL_VAR NAME = "DEP_18_SEL">>18 CHER</option>
+		<option value="19" <TMPL_VAR NAME = "DEP_19_SEL">>19 CORREZE</option>
+		<option value="201" <TMPL_VAR NAME = "DEP_201_SEL">>201 CORSE DU SUD</option>
+		<option value="202" <TMPL_VAR NAME = "DEP_202_SEL">>202 HAUTE-CORSE</option>
+		<option value="21" <TMPL_VAR NAME = "DEP_21_SEL">>21 COTE D'OR</option>
+		<option value="22" <TMPL_VAR NAME = "DEP_22_SEL">>22 COTES D'ARMOR</option>
+		<option value="23" <TMPL_VAR NAME = "DEP_23_SEL">>23 CREUSE</option>
+		<option value="24" <TMPL_VAR NAME = "DEP_24_SEL">>24 DORDOGNE</option>
+		<option value="25" <TMPL_VAR NAME = "DEP_25_SEL">>25 DOUBS</option>
+		<option value="26" <TMPL_VAR NAME = "DEP_26_SEL">>26 DROME</option>
+		<option value="27" <TMPL_VAR NAME = "DEP_27_SEL">>27 EURE</option>
+		<option value="28" <TMPL_VAR NAME = "DEP_28_SEL">>28 EURE ET LOIR</option>
+		<option value="29" <TMPL_VAR NAME = "DEP_29_SEL">>29 FINISTERE</option>
+		<option value="30" <TMPL_VAR NAME = "DEP_30_SEL">>30 GARD</option>
+		<option value="31" <TMPL_VAR NAME = "DEP_31_SEL">>31 HAUTE GARONNE</option>
+		<option value="32" <TMPL_VAR NAME = "DEP_32_SEL">>32 GERS</option>
+		<option value="33" <TMPL_VAR NAME = "DEP_33_SEL">>33 GIRONDE</option>
+		<option value="34" <TMPL_VAR NAME = "DEP_34_SEL">>34 HERAULT</option>
+		<option value="35" <TMPL_VAR NAME = "DEP_35_SEL">>35 ILLE ET VILAINE</option>
+		<option value="36" <TMPL_VAR NAME = "DEP_36_SEL">>36 INDRE</option>
+		<option value="37" <TMPL_VAR NAME = "DEP_37_SEL">>37 INDRE ET LOIRE</option>
+		<option value="38" <TMPL_VAR NAME = "DEP_38_SEL">>38 ISERE</option>
+		<option value="39" <TMPL_VAR NAME = "DEP_39_SEL">>39 JURA</option>
+		<option value="40" <TMPL_VAR NAME = "DEP_40_SEL">>40 LANDES</option>
+		<option value="41" <TMPL_VAR NAME = "DEP_41_SEL">>41 LOIR ET CHER</option>
+		<option value="42" <TMPL_VAR NAME = "DEP_42_SEL">>42 LOIRE</option>
+		<option value="43" <TMPL_VAR NAME = "DEP_43_SEL">>43 HAUTE LOIRE</option>
+		<option value="44" <TMPL_VAR NAME = "DEP_44_SEL">>44 LOIRE ATLANTIQUE</option>
+		<option value="45" <TMPL_VAR NAME = "DEP_45_SEL">>45 LOIRET</option>
+		<option value="46" <TMPL_VAR NAME = "DEP_46_SEL">>46 LOT</option>
+		<option value="47" <TMPL_VAR NAME = "DEP_47_SEL">>47 LOT ET GARONNE</option>
+		<option value="48" <TMPL_VAR NAME = "DEP_48_SEL">>48 LOZERE</option>
+		<option value="49" <TMPL_VAR NAME = "DEP_49_SEL">>49 MAINE ET LOIRE</option>
+		<option value="50" <TMPL_VAR NAME = "DEP_50_SEL">>50 MANCHE</option>
+		<option value="51" <TMPL_VAR NAME = "DEP_51_SEL">>51 MARNE</option>
+		<option value="52" <TMPL_VAR NAME = "DEP_52_SEL">>52 HAUTE MARNE</option>
+		<option value="53" <TMPL_VAR NAME = "DEP_53_SEL">>53 MAYENNE</option>
+		<option value="54" <TMPL_VAR NAME = "DEP_54_SEL">>54 MEURTHE ET MOSELLE</option>
+		<option value="55" <TMPL_VAR NAME = "DEP_55_SEL">>55 MEUSE</option>
+		<option value="56" <TMPL_VAR NAME = "DEP_56_SEL">>56 MORBIHAN</option>
+		<option value="57" <TMPL_VAR NAME = "DEP_57_SEL">>57 MOSELLE</option>
+		<option value="58" <TMPL_VAR NAME = "DEP_58_SEL">>58 NIEVRE</option>
+		<option value="59" <TMPL_VAR NAME = "DEP_59_SEL">>59 NORD</option>
+		<option value="60" <TMPL_VAR NAME = "DEP_60_SEL">>60 OISE</option>
+		<option value="61" <TMPL_VAR NAME = "DEP_61_SEL">>61 ORNE</option>
+		<option value="62" <TMPL_VAR NAME = "DEP_62_SEL">>62 PAS DE CALAIS</option>
+		<option value="63" <TMPL_VAR NAME = "DEP_63_SEL">>63 PUY DE DOME</option>
+		<option value="64" <TMPL_VAR NAME = "DEP_64_SEL">>64 PYRÉNÉES ATLANTIQUES</option>
+		<option value="65" <TMPL_VAR NAME = "DEP_65_SEL">>65 HAUTES PYRÉNÉES</option>
+		<option value="66" <TMPL_VAR NAME = "DEP_66_SEL">>66 PYRÉNÉES ORIENTALES</option>
+		<option value="67" <TMPL_VAR NAME = "DEP_67_SEL">>67 BAS RHIN</option>
+		<option value="68" <TMPL_VAR NAME = "DEP_68_SEL">>68 HAUT RHIN</option>
+		<option value="69" <TMPL_VAR NAME = "DEP_69_SEL">>69 RHONE</option>
+		<option value="70" <TMPL_VAR NAME = "DEP_70_SEL">>70 HAUTE SAONE</option>
+		<option value="71" <TMPL_VAR NAME = "DEP_71_SEL">>71 SAONE ET LOIRE</option>
+		<option value="72" <TMPL_VAR NAME = "DEP_72_SEL">>72 SARTHE</option>
+		<option value="73" <TMPL_VAR NAME = "DEP_73_SEL">>73 SAVOIE</option>
+		<option value="74" <TMPL_VAR NAME = "DEP_74_SEL">>74 HAUTE SAVOIE</option>
+		<option value="75" <TMPL_VAR NAME = "DEP_75_SEL">>75 PARIS</option>
+		<option value="76" <TMPL_VAR NAME = "DEP_76_SEL">>76 SEINE MARITIME</option>
+		<option value="77" <TMPL_VAR NAME = "DEP_77_SEL">>77 SEINE ET MARNE</option>
+		<option value="78" <TMPL_VAR NAME = "DEP_78_SEL">>78 YVELINES</option>
+		<option value="79" <TMPL_VAR NAME = "DEP_79_SEL">>79 DEUX SEVRES</option>
+		<option value="80" <TMPL_VAR NAME = "DEP_80_SEL">>80 SOMME</option>
+		<option value="81" <TMPL_VAR NAME = "DEP_81_SEL">>81 TARN</option>
+		<option value="82" <TMPL_VAR NAME = "DEP_82_SEL">>82 TARN ET GARONNE</option>
+		<option value="83" <TMPL_VAR NAME = "DEP_83_SEL">>83 VAR</option>
+		<option value="84" <TMPL_VAR NAME = "DEP_84_SEL">>84 VAUCLUSE</option>
+		<option value="85" <TMPL_VAR NAME = "DEP_85_SEL">>85 VENDEE</option>
+		<option value="86" <TMPL_VAR NAME = "DEP_86_SEL">>86 VIENNE</option>
+		<option value="87" <TMPL_VAR NAME = "DEP_87_SEL">>87 HAUTE VIENNE</option>
+		<option value="88" <TMPL_VAR NAME = "DEP_88_SEL">>88 VOSGES</option>
+		<option value="89" <TMPL_VAR NAME = "DEP_89_SEL">>89 YONNE</option>
+		<option value="90" <TMPL_VAR NAME = "DEP_90_SEL">>90 TERRITOIRE DE BELFORT</option>
+		<option value="91" <TMPL_VAR NAME = "DEP_91_SEL">>91 ESSONNE</option>
+		<option value="92" <TMPL_VAR NAME = "DEP_92_SEL">>92 HAUTS DE SEINE</option>
+		<option value="93" <TMPL_VAR NAME = "DEP_93_SEL">>93 SEINE SAINT DENIS</option>
+		<option value="94" <TMPL_VAR NAME = "DEP_94_SEL">>94 VAL DE MARNE</option>
+		<option value="95" <TMPL_VAR NAME = "DEP_95_SEL">>95 VAL D'OISE</option>
+		<option value="971" <TMPL_VAR NAME = "DEP_971_SEL">>971 GUADELOUPE</option>
+		<option value="972" <TMPL_VAR NAME = "DEP_972_SEL">>972 MARTINIQUE</option>
+		<option value="973" <TMPL_VAR NAME = "DEP_973_SEL">>973 GUYANE</option>
+		<option value="974" <TMPL_VAR NAME = "DEP_974_SEL">>974 REUNION</option>
+		<option value="975" <TMPL_VAR NAME = "DEP_975_SEL">>975 SAINT PIERRE ET MIQUELON</option>
+		<option value="976" <TMPL_VAR NAME = "DEP_976_SEL">>976 MAYOTTE</option>
+		<option value="986" <TMPL_VAR NAME = "DEP_986_SEL">>986 WALLIS ET FUTUNA</option>
+		<option value="987" <TMPL_VAR NAME = "DEP_987_SEL">>987 POLYNESIE FRANCAISE</option>
+		<option value="988" <TMPL_VAR NAME = "DEP_988_SEL">>988 NOUVELLE-CALEDONIE</option>
+		<option value="99" <TMPL_VAR NAME = "DEP_99_SEL">>99 AUTRES</option>
+		<option value="999" <TMPL_VAR NAME = "DEP_999_SEL">>999 ETRANGER</option>
+    </select>
+  </div>
+  <div class="col-md-6 form-group">
+    <label for="numTel">Téléphone : *</label>
+    <input type="text" class="form-control" value='<TMPL_VAR NAME = "numTel">' id="numTel" name="phone">
+  </div>
+  <div class="col-md-6 form-group">
+    <label for="addresseMail">Mèl : *</label>
+    <input type="text" class="form-control" value='<TMPL_VAR NAME = "addresseMail">' id="addresseMail" name="mail">
+  </div>  
+  </fieldset>
+  </form>
+  </div>
+  
+
+  <div id="infoArmee">
+  <form role="form">
+  <fieldset>
+  <legend>Armée :</legend>
+  <div class="form-group">
+    <p class="infoFC validFC"><span class="glyphicon glyphicon-ok" aria-hidden="true"><TMPL_VAR NAME="situation_sn"></span> 
+	</p>
+	<p>Le ministère de la Défense a transmis les informations suivantes:</p>
+  </div>
+  </fieldset>
+  </form>
+  </div>
+
+  <div id="infoDiplome">
+  <form role="form">
+  <fieldset>
+  <legend>Diplômes :</legend>
+      <p class="infoFC errorFC"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> 
+	  Le ministère de l'&Eacute;ducation nationale n'a pas pu transmettre l'ensemble des pièces justificatives. Veuillez fournir une copie (scan .jpg, .pdf) de votre diplôme le plus élevé.</p>
+  <div class="form-group">
+    <label for="diplomeBrevet">Brevet : </label>
+    <div class="uploadMasque"><span> Déposer une piece > </span>
+	<input type="file" id="diplomeBrevet" ></div>
+  </div>
+  <div class="form-group">
+    <label for="diplomeBac">Baccalauréat : </label>
+	<div class="uploadMasque"><span> Déposer une piece > </span>
+    <input type="file" id="diplomeBac" ></div>
+  </div>
+  <div class="form-group">
+    <label for="diplomeSuperieur1">Supérieur: </label>
+	<div class="uploadMasque"><span> Déposer une piece > </span>
+    <input type="file" id="diplomeSuperieur1" ></div>
+  </div>
+  </fieldset>
+  </form>
+  </div>
+  
+  <div id="infoHandicap">
+   <form role="form">
+   <fieldset>
+  <legend>Situation de handicap :</legend>
+	<div class="col-md-12  form-group checkbox">
+	<label>Cochez cette case si vous êtes un travailleur handicapé : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<input value='<TMPL_VAR NAME = "triggerHandicap">' id="triggerHandicap" type="checkbox" name="situationHandicap"></label>
+	</div>
+	<br><br>
+	<div value='<TMPL_VAR NAME = "containerHandicap">' id="containerHandicap" style="display:none;" class="col-md-11 col-md-offset-1 form-group handicap">
+	<label>Demandes d'aménagement :</label>
+	<div class="checkbox">
+	<label><input type="checkbox" name="tiersTemp">Tiers-temps</label>
+	</div>
+	<div class="checkbox">
+	<label><input type="checkbox" name="braille">Braille</label>
+	</div>
+	<div class="checkbox">
+	<label><input type="checkbox" name="agrandissement">Agrandissement</label>
+	</div>
+	<div class="checkbox">
+	<label><input type="checkbox" name="secretaireHandicap">Secrétaire handicap</label>
+	</div>
+	
+  <label for="amenagementHandicap">Autre type d'aménagement nécessaire :</label>
+  <textarea style="resize:none;" class="form-control" rows="5" value='<TMPL_VAR NAME = "amenagementHandicap">' id="amenagementHandicap"></textarea>
+    </div>
+	</fieldset>
+	</form>
+
+
+  </div>
+  
+  <div id="infoAutre">
+      <form role="form">
+   <fieldset>
+  <legend>Situation familiale :</legend>
+	<div class="col-md-12  form-group">
+	<div class="checkbox" value='<TMPL_VAR NAME = "enfantTrois">'>
+	<label>Cochez cette case si vous élevez ou avez élevé plus de 3 enfants : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="situationHandicap"></label>
+	</div>
+	</div>
+	</fieldset>
+  <fieldset>
+  <legend>Sportif de haut niveau :</legend>
+	<div class="col-md-12  form-group">
+	<div class="checkbox">
+	<label>Cochez cette case si vous êtes un sportif de haut niveau: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="situationSport"></label>
+	</div>
+	</div>
+	</fieldset>
+	</form>
+  </div>
+</div>
+
+<div class="row">
+<div class="col-md-12 containerBoutons">
+<button type="submit" class="boutonValidation">Valider</button>
+</div>
+</div>
+      <footer class="infoFooter">
+		<a class="pull-right"><img class="logoDGFiP" alt="&copy; DGFiP" src="img/logoDGFiP.png"/></a>
+      </footer>	  
+      </div>
+<div id="fermOverlay"></div>
+	
+		<script src="js/vendor/jquery-1.11.2.min.js"></script>
+        <script src="js/vendor/jquery-ui.min.js"></script>
+        <script src="js/vendor/bootstrap.min.js"></script>
+        <script src="js/main.js"></script>
+    </body>
+</html>
