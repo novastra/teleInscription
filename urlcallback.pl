@@ -112,20 +112,14 @@ sub getDatas
 
 sub do_request()
 {
-	# my $apikey = 'apikey=fd6fc4b687e9c78892f206d4a76b82b4a70c7ef418e3cdc8d7b548c2' ;
-	# my $fc = 'https://datafranceconnect.opendatasoft.com/api/records/1.0/search?' ;
-	# my $dataset = 'dataset=identite_pivot' ;
-	# #$ua->proxy(['http', 'https'], 'http://10.154.61.3:3128/') ;
-	# my $response = $ua->get($fc . $apikey . '&' . $dataset . '&' . $ENV{'QUERY_STRING'}) ;
-
-	my $clientID = "ad1a0a5c98728c5a837f23a1e7cbdba779bd68b599517cdb0a788604f45da323" ;
+	my $clientID = "ad1a0a5c98728c5a837f23a1e7cbdba779bd68b599517cdb0a788604f45da323" ; # E. German
 
 	my $state = param('state') ;
 	my $code = param('code') ;
 
 	if ($code and $state) {
 		# Authentification
-    my $clientSecret = "c5c5fb51276ff890c9d65f274040489420cb97e4b3b3be020a35a94f050337a4" ;
+    my $clientSecret = "c5c5fb51276ff890c9d65f274040489420cb97e4b3b3be020a35a94f050337a4" ; # E.German
 		my $grantType = "authorization_code";
 		my $form =
 			{
@@ -139,7 +133,7 @@ sub do_request()
 		my $ua = LWP::UserAgent->new ;
 		my $response = $ua->post($tokenURL, $form, "Content-Type" => 'application/x-www-form-urlencoded') ;
 		if ( $response->is_error ) {
-			print STDERR  $response->message . "\n" ;
+			print STDERR  "Error retreiving access_token : " . $response->message . "\n" ;
 			$request->Finish();
 			return ;
 		}
@@ -151,9 +145,9 @@ sub do_request()
 		my $access_token ;
 		my $id_token ;
 		eval { $json = decode_json $content; };
-
 		if ($@) {
-			print STDERR "Wrong JSON content\n";
+			my $msg = $@ ;
+			print STDERR "Wrong JSON  content in get access token : ", $msg, "\n", "Content : ", $content, "\n";
 			$request->Finish();
 			return ;
 		}
@@ -172,16 +166,30 @@ sub do_request()
       split( /\./, $id_token );
     # TODO check signature
 
-    my $id_token_payload_hash = decode_json( decode_base64($id_token_payload) );
+    my $id_token_payload_hash ;
+		$id_token_payload_hash = eval { decode_json( decode_base64($id_token_payload) ) };
+		if ($@) {
+			my $msg = $@ ;
+			print STDERR "Wrong JSON content in id token payload : ", $msg, "\n";
+			$request->Finish();
+			return ;
+		}
 
     # Request UserInfo
 
 		my $ui_response =
 			$ua->get( $userInfoURL, "Authorization" => "Bearer $access_token" );
+
+		if ( $ui_response->is_error ) {
+			print STDERR  "Error retreiving access_token : " . $ui_response->message . "\n" ;
+			$request->Finish();
+			return ;
+		}
+
 		my $ui_content = $ui_response->decoded_content;
 		my $ui_json;
 		my $content_type = $ui_response->header('Content-Type');
-	
+
 		if ( $content_type =~ /json/ ) {
 			eval { $ui_json = decode_json($ui_content); };
 		} elsif ( $content_type =~ /jwt/ ) {
@@ -189,136 +197,175 @@ sub do_request()
 				split( /\./, $ui_content );
 			eval { $ui_json = decode_json( decode_base64($ui_payload) ); };
 		}
-		print STDERR "FranceConnect return : ", Dumper($ui_json), "\n" ;
-
-		# {
-    #       'birthcountry' => '99100',
-    #       'phone_number' => undef,
-    #       'gender' => 'male',
-    #       'birthplace' => '124',
-    #       'address' => undef,
-    #       'birthdate' => '1965-11-17',
-    #       'family_name' => 'Menant',
-    #       'sub' => 'a738cfd6a1e12ed8b101631029413ce00fe0022aebda372b',
-    #       'given_name' => 'Thomas',
-    #       'email' => '1234567891011'
-		#       'preferred_username'
-    #     };
-
+		if($@) {
+			my $msg = $@ ;
+			print STDERR "Wrong JSON content in user info : ", $msg, "\n";
+			$request->Finish();
+			return ;
+		}
+		print STDERR "FranceConnect User Info return : ", Dumper($ui_json), "\n" ;
 
 		my $etatCivil = getDatas('etatcivil_cnf', $access_token) ;
 		print STDERR "Etat Civil : ", Dumper($etatCivil), "\n" ;
 
 		my $faiContact = getDatas('fai_contact', $access_token) ;
-		my $fai = $faiContact->{'records'}->[0]->{'fields'} ;
-		print STDERR "FAI Contact : ", Dumper($fai), "\n" ;
+		my $fai ;
+		$fai = $faiContact->{'records'}->[0]->{'fields'}
+			if ($faiContact and
+					exists $faiContact->{'records'} and
+					exists $faiContact->{'records'}->[0] and
+					exists $faiContact->{'records'}->[0]->{'fields'}) ;
+		print STDERR "FAI Contact : ", Dumper($fai), "\n"
+			if($fai) ;
 
-		print STDERR "Requesting Service National \n" ;
-		my $serviceNational = getSN($access_token) ;
-		print STDERR "Service National : ", Dumper($serviceNational), "\n" ;
-		# {
+
 		#     'situation_clair' => "d\\x{e9}gag\\x{e9} des obligations militaires",
 		# 		'situation_sn' => bless( do{\\(my $o = 1)}, 'JSON::XS::Boolean'
-		# }
+		my $serviceNational = getSN($access_token) ;
+		print STDERR "Service National : ", Dumper($serviceNational), "\n"
+			if ($serviceNational) ;
+
+		my $educationNationale ;
+		# TODO : A implémenter
 
 		print STDERR "creating template \n" ;
 		my $template = HTML::Template->new(filename => 'gestionCompte.tmpl' ,
-																			 path => ['maquette/current', '/home/olivier/Development/hackathon/maquette/v0.4']
+																			 path => [
+																								'maquette/current',
+																								'/home/olivier/Development/hackathon/maquette/v0.4',
+																							]
 																		 ) ;
-		print STDERR "Error creating template \n"
-			unless $template ;
+		unless ( $template) {
+			print STDERR "Error creating template \n" ;
+			$request->Finish();
+			return ;
+		}
+
+		eval {
+			# Etat sur les informations récupérées de FC :
+			$template->param(etat_EtatCivil => (defined $ui_json ? "accept" : "refus")) ;
+			$template->param(etat_LaPoste => (defined $fai ? "accept" : "refus")) ;
+			$template->param(etat_ServiceNational => (defined $serviceNational ? "accept" : "refus")) ;
+			$template->param(etat_EducationNationale => (defined $educationNationale ? "accept" : "refus")) ;
+		} ;
+		if($@) {
+			my $msg = $@ ;
+			print STDERR "Error setting info on FC services : ", $msg, "\n";
+			$request->Finish();
+			return ;
+		}
+		
+
 
 		# Etat civil
-		$template->param(ID_CANDIDAT => $ui_json->{'preferred_username'} . ', ' . $ui_json->{'given_name'} ) ;
-		$template->param(nom => $ui_json->{'preferred_username'} ) ;
-		$template->param(nomUsag => $ui_json->{'family_name'} ) ;
-		$template->param(prenom => $ui_json->{'given_name'}) ;
-		if($ui_json->{'gender'} eq "male") {
-			$template->param('sexe_m' => 'checked') ;
-		} else {
-			$template->param('sexe_f' => 'checked') ;
-		}
-		{
-			my ($y, $m, $j) = split(/\-/, $ui_json->{'birthdate'}) ;
-			$template->param(dateNaissance => "$j/$m/$y") ;
-		}
-		my $dptNaissance ;
-		my $villeNaissance ;
-		if ($ui_json->{'birthplace'} eq "99100") {
-			$dptNaissance = "France" ;
-		} else {
-			my $cmd = "grep " . $ui_json->{'birthplace'} . " france2015.txt" ;
-			my $line = eval { `$cmd` } ;
-			if ($line) {
-				print STDERR "Pays $line \n" ;
-				my @infos = split(/\t/, $line) ;
-				# 4\t\t\t\t11\t78\t471\t\t\t1\t91471\t1\t\tORSAY\t\tOrsay\t\t
-				eval { $villeNaissance = $infos[13] ; } ;
-				eval {$dptNaissance = $infos[5] ; } ;
+		eval {
+			if ($ui_json) {
+				$template->param(ID_CANDIDAT => $ui_json->{'preferred_username'} . ', ' . $ui_json->{'given_name'} ) ;
+				$template->param(nom => $ui_json->{'preferred_username'} ) ;
+				$template->param(nomUsag => $ui_json->{'family_name'} ) ;
+				$template->param(prenom => $ui_json->{'given_name'}) ;
+				if ($ui_json->{'gender'} eq "male") {
+					$template->param('sexe_m' => 'checked') ;
+				} else {
+					$template->param('sexe_f' => 'checked') ;
+				}
+				{
+					my ($y, $m, $j) = split(/\-/, $ui_json->{'birthdate'}) ;
+					$template->param(dateNaissance => "$j/$m/$y") ;
+				}
+				my $dptNaissance ;
+				my $villeNaissance ;
+
+				# villeNaissance
+				# departementNaissance
+				# paysNaissance
+
+				if ($ui_json->{'birthplace'} eq "99100") {
+					$dptNaissance = "France" ;
+				} else {
+
+					my $cmd = "grep " . $ui_json->{'birthplace'} . " france2015.txt" ;
+					my $line = `$cmd` ;
+					if ($line) {
+						print STDERR "Pays $line \n" ;
+						my @infos = split(/\t/, $line) ;
+						# 4\t\t\t\t11\t78\t471\t\t\t1\t91471\t1\t\tORSAY\t\tOrsay\t\t
+						eval { $villeNaissance = $infos[13] ; } ;
+						eval { $dptNaissance = $infos[5] ; } ;
+					}
+				}
+				if ($dptNaissance) {
+					$template->param(villeNaissance => $villeNaissance) ;
+					$template->param("DPT_" . $dptNaissance . "_NAI" => "selected") ;
+				}
 			}
+		} ;
+		if($@) {
+			my $msg = $@ ;
+			print STDERR "Error settings infos on Etat Civil : ", $msg, "\n";
+			$request->Finish();
+			return ;
 		}
-		if($dptNaissance) {
-			$template->param(villeNaissance => $villeNaissance) ;
-			$template->param("DPT_" . $dptNaissance . "_NAI" => "selected") ;
-		}
-		print STDERR "template 5 \n" ;
-		# villeNaissance
-		# departementNaissance
-		# paysNaissance
 		
+		# Nationalité
 		# numVoieHab
-		if ($fai) {
-			if ($fai->{'adresse'}) {
-				my $adresse = $fai->{'adresse'} ;
-				if ($adresse =~ m/(\d+)\s*,\s*(.+)/i) {
-					my $nVoie = $1 ;
-					my $rue = $2 ;
-					# indicNumVoieHab
-					$template->param(numVoieHab => $nVoie) ;
-					# addresseHab
-					$template->param(addresseHab => $rue) ;
-				}
-			}
-			if($fai->{'commune'}) {
-				$template->param('communeHab' => $fai->{'commune'}) ;
-				if($fai->{'code_postal'} =~ /([\d]{2})\d+/) {
-					my $dep = $1 ;
-					if($dep > 96 or $dep == 20) {
-						$fai->{'code_postal'} =~ /([\d]{3})\d+/ ;
-						$dep = $1 ;
-					}
-					print STDERR "Détermination du département : $dep\n" ;
-					eval { $template->param('DEP_' . $dep .'_SEL' => 'selected') ; } ;
-					if( $@ ) {
-						print STDERR "Erreur de détermination du département : $@\n" ;
+		eval {
+			if ($fai) {
+				if ($fai->{'adresse'}) {
+					my $adresse = $fai->{'adresse'} ;
+					if ($adresse =~ m/(\d+)\s*,\s*(.+)/i) {
+						my $nVoie = $1 ;
+						my $rue = $2 ;
+						# indicNumVoieHab
+						$template->param(numVoieHab => $nVoie) ;
+						# addresseHab
+						$template->param(addresseHab => $rue) ;
 					}
 				}
-				eval { $template->param('PAYS_' . '10' .'_SEL' => 'selected') ; } ;
+				if ($fai->{'commune'}) {
+					$template->param('communeHab' => $fai->{'commune'}) ;
+					if ($fai->{'code_postal'} =~ /([\d]{2})\d+/) {
+						my $dep = $1 ;
+						if ($dep > 96 or $dep == 20) {
+							$fai->{'code_postal'} =~ /([\d]{3})\d+/ ;
+							$dep = $1 ;
+						}
+						# departementHab
+						eval { $template->param('DEP_' . $dep .'_SEL' => 'selected') ; } ;
+						if ( $@ ) {
+							print STDERR "Erreur de détermination du département : $@\n" ;
+						}
+					}
+					# paysHab
+					eval { $template->param('PAYS_' . '10' .'_SEL' => 'selected') ; } ;
+				}
+				$template->param('codepostalHab' => $fai->{'code_postal'})
+					if $fai->{'code_postal'} ;
+				$template->param('numTel' => $fai->{'tel_fixe'})
+					if $fai->{'tel_fixe'} ;
+				$template->param('addresseMail' => $fai->{'mail'})
+					if $fai->{'mail'} ;
 			}
-			$template->param('codepostalHab' => $fai->{'code_postal'})
-				if $fai->{'code_postal'} ;
-			$template->param('numTel' => $fai->{'tel_fixe'})
-				if $fai->{'tel_fixe'} ;
-			$template->param('addresseMail' => $fai->{'mail'})
-				if $fai->{'mail'} ;
+		} ;
+		if($@) {
+			my $msg = $@ ;
+			print STDERR "Wrong JSON content in fai : ", $msg, "\n";
+			$request->Finish();
+			return ;
 		}
-		# addresseHab2
-		# paysHab
-		# departementHab
 
 		$template->param("nationalite_francaise" => "checked") ; # On triche !
 
 
 		# Service National
-		if($serviceNational->{'situation_clair'}) {
-			$template->param("situation_sn" => $serviceNational->{'situation_clair'}) ;
+		if ($serviceNational) {
+			if ($serviceNational->{'situation_clair'}) {
+				$template->param("situation_sn" => $serviceNational->{'situation_clair'}) ;
+			}
 		}
-		print STDERR "template DONE " . $serviceNational->{'situation_clair'} . "\n" ;
-
 		print("Content-type: text/html\r\n\r\n");
 		print $template->output ;
-		print STDERR "template DONE \n" ;
-	}
 
+	}
 	$request->Finish();
 }
