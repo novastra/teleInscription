@@ -103,14 +103,14 @@
   </div>
   
   <!-- Modale autorisation France Connect -->
-<div class="modal fade" id="autorisationFC" role="dialog">
+	<div class="modal fade" id="autorisationFC" role="dialog">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
           <img src="img/logoFC.png" width="250px" alt="">
         </div>
         <div class="modal-body">
-    <p class="h3">
+					<p class="h3">
             Autorisez-vous
             <b>le service d'inscription aux concours</b> à accéder aux informations vous concernant ? 
     </p>
@@ -145,7 +145,7 @@
    <fieldset>
   <legend>Votre état civil :</legend>
     
-	<div class="col-md-12  form-group" value='<TMPL_VAR NAME = "sexe">' id="sexe">
+	<div class="col-md-12  form-group" id="sexe">
 	<label>Civilité : *</label>
 	<div class="radio">
 	<label><input type="radio" name="civilite" <TMPL_VAR NAME="sexe_m">>M.</label>
@@ -556,9 +556,10 @@
   <fieldset>
   <legend>Armée :</legend>
   <div class="form-group">
-    <p class="infoFC validFC"><span class="glyphicon glyphicon-ok" aria-hidden="true"><TMPL_VAR NAME="situation_sn"></span> 
+    <p class="infoFC <TMPL_VAR NAME="etat_SN_FC">"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> 
 	</p>
 	<p>Le ministère de la Défense a transmis les informations suivantes:</p>
+	<TMPL_VAR NAME="situation_sn">
   </div>
   </fieldset>
   </form>

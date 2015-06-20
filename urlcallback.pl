@@ -251,10 +251,7 @@ sub do_request()
 		if($@) {
 			my $msg = $@ ;
 			print STDERR "Error setting info on FC services : ", $msg, "\n";
-			$request->Finish();
-			return ;
 		}
-		
 
 
 		# Etat civil
@@ -303,10 +300,8 @@ sub do_request()
 		if($@) {
 			my $msg = $@ ;
 			print STDERR "Error settings infos on Etat Civil : ", $msg, "\n";
-			$request->Finish();
-			return ;
 		}
-		
+
 		# Nationalité
 		# numVoieHab
 		eval {
@@ -350,19 +345,27 @@ sub do_request()
 		if($@) {
 			my $msg = $@ ;
 			print STDERR "Wrong JSON content in fai : ", $msg, "\n";
-			$request->Finish();
-			return ;
 		}
 
 		$template->param("nationalite_francaise" => "checked") ; # On triche !
 
 
 		# Service National
-		if ($serviceNational) {
-			if ($serviceNational->{'situation_clair'}) {
-				$template->param("situation_sn" => $serviceNational->{'situation_clair'}) ;
+		eval {
+			if ($serviceNational) {
+				if ($serviceNational->{'situation_clair'}) {
+					$template->param("situation_sn" => $serviceNational->{'situation_clair'}) ;
+				}
+				$template->param(etat_SN_FC => "validFC") ;
+			} else {
+				$template->param(etat_SN_FC => "errorFC") ;
 			}
+		} ;
+		if($@) {
+			my $msg = $@ ;
+			print STDERR "Error setting params for SN : ", $msg, "\n";
 		}
+		
 		print("Content-type: text/html\r\n\r\n");
 		print $template->output ;
 
