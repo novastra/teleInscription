@@ -54,7 +54,7 @@ sub do_request()
 	my %opts =
 		(
 		 response_type => 'code',
-		 scope => uri_escape(join(' ', ('profile', 'email', 'address', 'phone', 'openid', 'ods_etatcivil_cnf', 'ods_fai_contact'))),
+		 scope => uri_escape(join(' ', ('profile', 'email', 'address', 'phone', 'openid', 'ods_etatcivil_cnf', 'ods_fai_contact', 'ods_men_diplomes'))),
 		 client_id => $clientID,
 		 redirect_uri => uri_escape($callbackURL),
 

@@ -569,20 +569,20 @@
   <form role="form">
   <fieldset>
   <legend>Diplômes :</legend>
-      <p class="infoFC errorFC"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> 
-	  Le ministère de l'&Eacute;ducation nationale n'a pas pu transmettre l'ensemble des pièces justificatives. Veuillez fournir une copie (scan .jpg, .pdf) de votre diplôme le plus élevé.</p>
+      <p class="infoFC <TMPL_VAR NAME="etat_EN_FC">"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> 
+				<TMPL_VAR NAME="explain_EN_status"></p>
   <div class="form-group">
-    <label for="diplomeBrevet">Brevet : </label>
+    <label for="diplomeBrevet">Brevet : <TMPL_VAR NAME="diplome_brevet"></label>
     <div class="uploadMasque"><span> Déposer une piece > </span>
 	<input type="file" id="diplomeBrevet" ></div>
   </div>
   <div class="form-group">
-    <label for="diplomeBac">Baccalauréat : </label>
+    <label for="diplomeBac">Baccalauréat : <TMPL_VAR NAME="diplome_bac"></label>
 	<div class="uploadMasque"><span> Déposer une piece > </span>
     <input type="file" id="diplomeBac" ></div>
   </div>
   <div class="form-group">
-    <label for="diplomeSuperieur1">Supérieur: </label>
+    <label for="diplomeSuperieur1">Supérieur: <TMPL_VAR NAME="diplome_sup"></label>
 	<div class="uploadMasque"><span> Déposer une piece > </span>
     <input type="file" id="diplomeSuperieur1" ></div>
   </div>

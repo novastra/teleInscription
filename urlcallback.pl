@@ -182,6 +182,11 @@ sub do_request()
 
 		if ( $ui_response->is_error ) {
 			print STDERR  "Error retreiving access_token : " . $ui_response->message . "\n" ;
+			print("Content-type: text/html\r\n\r\n");
+			print "<html><head><title>Erreur : acc&egrave; &agrave; FranceConnect</title></head><body><h1>Erreur d'acc&egrave;s &agrave; FranceConnect :</h1><p>",
+				$ui_response->message, "</p><br/><p>",
+				$ui_response->status_line, "</p></body></html>\n" ;
+
 			$request->Finish();
 			return ;
 		}
@@ -225,8 +230,8 @@ sub do_request()
 		print STDERR "Service National : ", Dumper($serviceNational), "\n"
 			if ($serviceNational) ;
 
-		my $educationNationale ;
-		# TODO : A implémenter
+		my $educationNationale  = getDatas('men_diplomes', $access_token) ;
+		print STDERR "Education Nationale : ", Dumper($educationNationale), "\n" ;
 
 		print STDERR "creating template \n" ;
 		my $template = HTML::Template->new(filename => 'gestionCompte.tmpl' ,
@@ -364,6 +369,45 @@ sub do_request()
 		if($@) {
 			my $msg = $@ ;
 			print STDERR "Error setting params for SN : ", $msg, "\n";
+		}
+
+
+		# Education Nationale
+		eval {
+			if ($educationNationale) {
+				# {"nhits": 1,
+				# 	 "parameters": {"dataset":["men_diplomes"],
+				# 									"timezone": "UTC",
+				# 									"rows": 10,
+				# 									"format": "json"},
+				# 									"records": [{"datasetid": "men_diplomes", "recordid": "913721b3339c998be68e22331e075e1e7d70d328", "fields": {"sexe": "female", "serie": "Serie A", "date_de_naissance": "1985-01-05", "mention": "ADMIS", "academie_d_origine": "A25", "session": "2003-06", "nom_de_naissance": "AMA", "examen": "BACCALAUREAT GENERAL", "lieu_de_naissance": "91471", "prenoms": "Patricia", "pays_de_naissance": "99100"}, "record_timestamp": "2015-06-16T15:53:00+00:00"}]}
+				my $nDiplomes = $educationNationale->{'nhits'} ;
+				for (my $i = 0 ; $i < $nDiplomes ; ++$i) {
+					my $record = $educationNationale->{'records'}->[$i] ;
+					if($record) {
+						my $fields = $record->{'fields'} ;
+						print STDERR "Settings info :", Dumper($fields), "\n" ;
+						if($fields->{'examen'} =~ m/baccalaureat/i) {
+							$template->param("diplome_bac" => $fields->{'examen'} . ' ' . $fields->{'serie'} . ', ' . $fields->{'mention'} . '. Session ' . $fields->{'session'}) ;
+						}
+						if($fields->{'examen'} =~ m/supérieur/i) {
+							$template->param("diplome_sup" => $fields->{'examen'} . ' ' . $fields->{'serie'} . ', ' . $fields->{'mention'} . '. Session ' . $fields->{'session'}) ;
+						}
+						if($fields->{'examen'} =~ m/brevet/i) {
+							$template->param("diplome_brevet" => $fields->{'examen'} . ' ' . $fields->{'serie'} . ', ' . $fields->{'mention'} . '. Session ' . $fields->{'session'}) ;
+						}
+					}
+				}
+				$template->param('etat_EN_FC', => 'validFC') ;
+				$template->param("explain_EN_status" => "Le minist&egrave;re de l'&Eacute;ducation nationale a transmis les informations suivantes vous concernant.") ;
+			} else {
+				$template->param("explain_EN_status" => "Le minist&egrave;re de l'&Eacute;ducation nationale n'a pas pu transmettre l'ensemble des pièces justificatives. Veuillez fournir une copie (scan .jpg, .pdf) de votre diplôme le plus élevé.") ;
+				$template->param('etat_EN_FC', => 'errorFC') ;
+			}
+		} ;
+		if($@) {
+			my $msg = $@ ;
+			print STDERR "Error setting params for Education Nationale : ", $msg, "\n";
 		}
 		
 		print("Content-type: text/html\r\n\r\n");
