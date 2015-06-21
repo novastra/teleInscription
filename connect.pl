@@ -64,7 +64,10 @@ sub do_request()
 	 ) ;
 
 	my $template = HTML::Template->new(filename => 'connexion.tmpl' ,
-																			 path => ['maquette/current', '/home/olivier/Development/hackathon/maquette/v0.4']
+																			 path => ['maquette/current',
+    'maquette/v0.4',
+    '/Users/olivier/Development/teleInscription.xcworkspace/teleInscription/maquette/v0.4',
+    '/home/olivier/Development/hackathon/maquette/v0.4']
 																	 );
 	$template->param('URL_FC' => $fcURL . join('&', map {$_ . "=" . $opts{$_}} keys %opts)) ;
 	print $template->output ;
