@@ -249,9 +249,13 @@ sub do_request()
 		eval {
 			# Etat sur les informations récupérées de FC :
 			$template->param(etat_EtatCivil => (defined $ui_json ? "accept" : "refus")) ;
+			$template->param(class_ec => (defined $ui_json ? "accept" : "refus")) ;
 			$template->param(etat_LaPoste => (defined $fai ? "accept" : "refus")) ;
+			$template->param(class_laposte => (defined $fai ? "" : "error")) ;
 			$template->param(etat_ServiceNational => (defined $serviceNational ? "accept" : "refus")) ;
+			$template->param(class_sn => (defined $serviceNational ? "" : "error")) ;
 			$template->param(etat_EducationNationale => (defined $educationNationale ? "accept" : "refus")) ;
+			$template->param(class_men => (defined $educationNationale ? "" : "error")) ;
 		} ;
 		if($@) {
 			my $msg = $@ ;
