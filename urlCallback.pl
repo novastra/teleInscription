@@ -154,7 +154,7 @@ sub do_request()
        code => $code,
        client_id => $clientID,
        client_secret => $clientSecret,
-       redirect_uri => uri_escape($callbackURL),
+       redirect_uri => $callbackURL,
        grant_type => $grantType,
 		 } ;
 		# Corps HTTP : {'grant_type':'authorization_code', 'redirect_uri': '<FS_URL>/<URL_CALLBACK>', 'client_id':'<CLIENT_ID>', 'client_secret':'<CLIENT_SECRET>', 'code':'<AUTHZ_CODE>'}
@@ -171,6 +171,7 @@ sub do_request()
 			$response = $ua->post($tokenURL, $form, "Content-Type" => 'application/x-www-form-urlencoded') ;
 			if ( $response->is_error ) {
 				print STDERR  "urlCallback : Error retreiving access_token : " . $response->message . "\n" ;
+				print "<html><head/><html><h1>ERROR</h1>urlCallback : Error retreiving access_token : " . $response->message . "</html>" ;
 				$request->Finish();
 				return ;
 			}
@@ -192,12 +193,14 @@ sub do_request()
     if ($@) {
       my $msg = $@ ;
       print STDERR "Wrong JSON  content in get access token : ", $msg, "\n", "Content : ", $content, "\n";
+			print "<html><head/><html><h1>ERROR</h1>Wrong JSON  content in get access token : ", $msg, "\n", "Content : ", $content, "</html>" ;
       $request->Finish();
       return ;
     }
     if ( $json->{error} ) {
       print STDERR "Error in token response:",  $json->{error}, "\n";
       print STDERR "Server response:",  $content, "\n";
+			print "<html><head/><html><h1>ERROR</h1>Error in  token response : ", $json->{'error'}, "</html>" ;
       $request->Finish();
       return ;
     } else {
@@ -215,6 +218,7 @@ sub do_request()
     if ($@) {
       my $msg = $@ ;
       print STDERR "Wrong JSON content in id token payload : ", $msg, "\n";
+			print "<html><head/><html><h1>ERROR</h1>Wrong JSON  content in token payload : ", $msg, "</html>" ;
       $request->Finish();
       return ;
     }
@@ -226,7 +230,6 @@ sub do_request()
 
     if ( $ui_response->is_error ) {
       print STDERR  "Error retreiving access_token : " . $ui_response->message . "\n" ;
-
       print "<html><head><title>Erreur : acc&egrave; &agrave; FranceConnect</title></head><body><h1>Erreur d'acc&egrave;s &agrave; FranceConnect :</h1><p>",
 				$ui_response->message, "</p><br/><p>",
 				$ui_response->status_line, "</p></body></html>\n" ;
