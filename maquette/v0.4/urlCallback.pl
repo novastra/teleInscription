@@ -12,6 +12,7 @@ use Data::Dumper;
 use utf8;
 use HTML::Template ;
 use URI::Escape ;
+use Net::FranceConnect ;
 use Digest::SHA
 	qw/hmac_sha256_base64 hmac_sha384_base64 hmac_sha512_base64 sha256 sha256_base64 sha384_base64 sha512_base64/;
 
@@ -71,222 +72,58 @@ sub abort_request() {
     $request->Finish();
 }
 
-
-sub param
-{
-    my $paramName = shift ;
-    my $qString = $ENV{'QUERY_STRING'} ;
-    my $value = join('', map { if($_ =~ /^$paramName=(.+)$/) { $1; } } split(/&/, $qString)) ;
-		print STDERR "Retreiving ", $paramName, " value : ", $value, " from ", $qString, "\n"
-			if $DEBUG;
-    return $value ;
-}
-
 ####################
-
-sub getSN
-{
-    my $token = shift ;
-    
-    my $url = "http://localhost:9000/api/checkSituation?TOKEN=" . $token ;
-    print STDERR "GET SN Datas url : ", $url, "\n" ;
-    my $ua = LWP::UserAgent->new ;
-    $ua->proxy($proxy_scheme, $proxy)
-			if $proxy ;
-    my $response = $ua->get($url) ;
-    
-    if($response->is_success) {
-        print STDERR "SN Data response : ", $response->content, "\n" if $DEBUG ;
-        print STDERR "Data response UTF-8 : ", decode('UTF-8', $response->content), "\n" if $DEBUG;
-        print STDERR "Data response ISO : ", decode('iso8859-1', $response->content), "\n"  if $DEBUG;
-        my $content = eval { decode_json $response->decoded_content } ;
-        return $content ;
-    } else {
-        print STDERR "Query SN Error : " . $response->status_line . "\n";
-    }
-    return undef ;
-}
-
-sub getDatas
-{
-    my $dataset = shift ;
-    my $token = shift ;
-
-    my $fc = 'https://datafranceconnect.opendatasoft.com/api/records/1.0/search?' ;
-
-    my $ua = LWP::UserAgent->new ;
-    $ua->proxy($proxy_scheme, $proxy)
-			if $proxy ;
-    my $url = $fc .'dataset='. $dataset . "&access_token=" . $token ;
-
-    print STDERR "Requesting : ", $url, "\n" if $DEBUG ;
-
-    my $response = $ua->get(
-														$fc .'dataset='. $dataset,
-														"Authorization" => "Bearer $token"
-													) ;
-
-    if($response->is_success) {
-        print STDERR "Data response : ", $response->decoded_content, "\n" if $DEBUG;
-        my $json = eval { decode_json $response->decoded_content } ;
-        print STDERR "Data response : ", Dumper($json), "\n" if $DEBUG;
-        return $json
-    } else {
-        print STDERR "Query dataser $dataset Error : " . $response->status_line . "\n" ;
-    }
-    return undef ;
-}
 
 sub do_request()
 {
-  my $state = param('state') ;
-  my $code = param('code') ;
-	print("Content-type: text/html\r\n\r\n");
+	my $callbackURL = "http://hackathon.local/teleInscription/urlCallback.pl" ;
 
-  if ($code and $state) {
-    # Authentification
-    my $clientID =     "9641ff3252bf9b00dc852bfa359629a7d963c2d10d407c03" ;
-    my $clientSecret = "67db6a90071af5b7b96ee98f77c9b4d97e3701a348db0b76" ;
+	my $fc = Net::FranceConnect->new() ;
+	$fc->setDebug(1) ;
 
-    my $grantType = "authorization_code";
-    my $form =
-      {
-       code => $code,
-       client_id => $clientID,
-       client_secret => $clientSecret,
-       redirect_uri => $callbackURL,
-       grant_type => $grantType,
-		 } ;
-		# Corps HTTP : {'grant_type':'authorization_code', 'redirect_uri': '<FS_URL>/<URL_CALLBACK>', 'client_id':'<CLIENT_ID>', 'client_secret':'<CLIENT_SECRET>', 'code':'<AUTHZ_CODE>'}
-    my $ua = LWP::UserAgent->new ;
-		$ua->proxy($proxy_scheme, $proxy)	if $proxy ;
+	my $ui_json ;
+	if (  $fc->initFromQueryString($ENV{'QUERY_STRING'}) and
+				$fc->retreiveAccessToken($callbackURL) and
+				($ui_json = $fc->retreiveUserInfo()) ) {
 
-		$ua->ssl_opts({ 'SSL_ca_file' => 'cacert.pem', 'verify_hostname' => 1});
-		$ua->default_header('Accept-Encoding' => scalar HTTP::Message::decodable());
-		$ua->add_handler("request_send",  sub { print STDERR shift->dump, "\n"; return }) if $DEBUG ;
-		$ua->add_handler("response_done", sub { print STDERR shift->dump, "\n"; return }) if $DEBUG ;
+		print STDERR  "Session : ", $fc->getSessionId(), "\n" ;
+    print STDERR "FranceConnect User Info return : ", Dumper($ui_json), "\n"
+			if $ui_json;
 
-		my $response ;
-		eval {
-			$response = $ua->post($tokenURL, $form, "Content-Type" => 'application/x-www-form-urlencoded') ;
-			if ( $response->is_error ) {
-				print STDERR  "urlCallback : Error retreiving access_token : " . $response->message . "\n" ;
-				print "<html><head/><html><h1>ERROR</h1>urlCallback : Error retreiving access_token : " . $response->message . "</html>" ;
-				$request->Finish();
-				return ;
-			}
-		} ;
-		if ($@) {
-      my $msg = $@ ;
-      print STDERR "Error retreiving token : ", $msg, "\n";
-      $request->Finish();
-      return ;
+		# Recperer les donnees
+
+		my $etatCivil =	eval { $fc->getFdDatas('etatcivil_cnf') } ;
+		if($@) {
+			print STDERR "Erreur : ", $@, "\n" ;
 		}
-
-    # Get access_token and id_token
-    my $content = $response->decoded_content;
-
-    my $json;
-    my $access_token ;
-    my $id_token ;
-    eval { $json = decode_json $content; };
-    if ($@) {
-      my $msg = $@ ;
-      print STDERR "Wrong JSON  content in get access token : ", $msg, "\n", "Content : ", $content, "\n";
-			print "<html><head/><html><h1>ERROR</h1>Wrong JSON  content in get access token : ", $msg, "\n", "Content : ", $content, "</html>" ;
-      $request->Finish();
-      return ;
-    }
-    if ( $json->{error} ) {
-      print STDERR "Error in token response:",  $json->{error}, "\n";
-      print STDERR "Server response:",  $content, "\n";
-			print "<html><head/><html><h1>ERROR</h1>Error in  token response : ", $json->{'error'}, "</html>" ;
-      $request->Finish();
-      return ;
-    } else {
-      $access_token = $json->{"access_token"} ;
-      $id_token     = $json->{"id_token"};
-    }
-
-    # Get ID token content
-
-    my ( $id_token_header, $id_token_payload, $id_token_signature ) =  split( /\./, $id_token );
-    # TODO check signature
-
-    my $id_token_payload_hash ;
-    $id_token_payload_hash = eval { decode_json( decode_base64($id_token_payload) ) };
-    if ($@) {
-      my $msg = $@ ;
-      print STDERR "Wrong JSON content in id token payload : ", $msg, "\n";
-			print "<html><head/><html><h1>ERROR</h1>Wrong JSON  content in token payload : ", $msg, "</html>" ;
-      $request->Finish();
-      return ;
-    }
-
-    # Request UserInfo
-
-    my $ui_response =
-      $ua->get( $userInfoURL, "Authorization" => "Bearer $access_token" );
-
-    if ( $ui_response->is_error ) {
-      print STDERR  "Error retreiving access_token : " . $ui_response->message . "\n" ;
-      print "<html><head><title>Erreur : acc&egrave; &agrave; FranceConnect</title></head><body><h1>Erreur d'acc&egrave;s &agrave; FranceConnect :</h1><p>",
-				$ui_response->message, "</p><br/><p>",
-				$ui_response->status_line, "</p></body></html>\n" ;
-
-      $request->Finish();
-      return ;
-    }
-
-    my $ui_content = $ui_response->decoded_content;
-    my $ui_json;
-    my $content_type = $ui_response->header('Content-Type');
-
-    if ( $content_type =~ /json/ ) {
-      eval { $ui_json = decode_json($ui_content); };
-    } elsif ( $content_type =~ /jwt/ ) {
-      my ( $ui_header, $ui_payload, $ui_signature ) =
-				split( /\./, $ui_content );
-      eval { $ui_json = decode_json( decode_base64($ui_payload) ); };
-    }
-    if ($@) {
-      my $msg = $@ ;
-      print STDERR "Wrong JSON content in user info : ", $msg, "\n";
-      $request->Finish();
-      return ;
-    }
-    print STDERR "FranceConnect User Info return : ", Dumper($ui_json), "\n" ;
-
-    my $etatCivil = getDatas('etatcivil_cnf', $access_token) ;
-    print STDERR "Etat Civil : ", Dumper($etatCivil), "\n" ;
-
-    my $faiContact = getDatas('fai_contact', $access_token) ;
-    my $fai ;
-    $fai = $faiContact->{'records'}->[0]->{'fields'}
-      if ($faiContact and
-					exists $faiContact->{'records'} and
-					exists $faiContact->{'records'}->[0] and
-					exists $faiContact->{'records'}->[0]->{'fields'}) ;
-    print STDERR "FAI Contact : ", Dumper($fai), "\n"
-      if ($fai) ;
+    my $dgfip = $fc->getFdDatas('dgfip_rp') ;
+    my $dgfip_rp = $dgfip->{'records'}->[0]->{'fields'}
+			if ($dgfip and
+					exists $dgfip->{'records'} and
+					exists $dgfip->{'records'}->[0] and
+					exists $dgfip->{'records'}->[0]->{'fields'}) ;
+    print STDERR "DGFiP Residence principale : ", Dumper($dgfip_rp), "\n"
+      if ($dgfip_rp) ;
 
     #     'situation_clair' => "d\\x{e9}gag\\x{e9} des obligations militaires",
     # 		'situation_sn' => bless( do{\\(my $o = 1)}, 'JSON::XS::Boolean'
-    my $serviceNational = getSN($access_token) ;
-    print STDERR "Service National : ", Dumper($serviceNational), "\n"
-      if ($serviceNational) ;
 
-    my $educationNationale  = getDatas('men_diplomes', $access_token) ;
-    print STDERR "Education Nationale : ", Dumper($educationNationale), "\n" ;
+    my $serviceNational = $fc->getFdDatas('situation_service_national') ;
+    print STDERR "Service National : ", Dumper($serviceNational), "\n"
+      if defined $serviceNational ;
+
+    my $educationNationale  = $fc->getFdDatas('men_diplomes') ;
+    print STDERR "Education Nationale : ", Dumper($educationNationale), "\n"
+			if defined $educationNationale ;
 
     print STDERR "creating template \n" ;
-    my $template = HTML::Template->new(filename => 'gestionCompte.tmpl' ,
-																			 path => ['maquette/current',
-																								'maquette/v0.4',
-																								'/Users/olivier/Development/teleInscription.xcworkspace/teleInscription/maquette/v0.4',
-																								'/home/olivier/Development/hackathon/maquette/v0.4'
-																							]
-																		 ) ;
+    my $template = eval {HTML::Template->new(filename => 'gestionCompte.tmpl' ,
+																						 path => ['maquette/current',
+																											'maquette/v0.4',
+																											'/Users/olivier/Development/teleInscription.xcworkspace/teleInscription/maquette/v0.4',
+																											'/home/olivier/Development/hackathon/maquette/v0.4'
+																										]
+																					 )} ;
     unless ( $template) {
       print STDERR "Error creating template \n" ;
       $request->Finish();
@@ -296,7 +133,7 @@ sub do_request()
     eval {
       # Etat sur les informations récupérées de FC :
       $template->param(etat_EtatCivil => (defined $ui_json ? "accept" : "refus")) ;
-      $template->param(etat_LaPoste => (defined $fai ? "accept" : "refus")) ;
+      $template->param(etat_LaPoste => (defined $dgfip ? "accept" : "refus")) ;
       $template->param(etat_ServiceNational => (defined $serviceNational ? "accept" : "refus")) ;
       $template->param(etat_EducationNationale => (defined $educationNationale ? "accept" : "refus")) ;
     } ;
@@ -308,18 +145,21 @@ sub do_request()
     # Etat civil
     eval {
       if ($ui_json) {
-				$template->param(ID_CANDIDAT => $ui_json->{'preferred_username'} . ', ' . $ui_json->{'given_name'} ) ;
-				$template->param(nom => $ui_json->{'preferred_username'} ) ;
-				$template->param(nomUsag => $ui_json->{'family_name'} ) ;
-				$template->param(prenom => $ui_json->{'given_name'}) ;
-				if ($ui_json->{'gender'} eq "male") {
+				$template->param(ID_CANDIDAT => encode('utf-8', ($ui_json->{'nom_d_usage'} ? $ui_json->{'nom_d_usage'} : $ui_json->{'nom_de_naissance'}) . ', ' . $ui_json->{'prenoms'} ) ) ;
+				$template->param(nom => encode('utf-8', $ui_json->{'nom_de_naissance'}) ) ;
+				$template->param(nomUsag => encode('utf-8', $ui_json->{'nom_d_usage'} ) ) ;
+				if($ui_json->{'prenoms'} =~ m/^\s*([^\s]+)\s*(.*)$/) {
+					$template->param(prenom => encode('utf-8', $1) ) ;
+					$template->param(prenom2 => encode('utf-8', $2) ) ;
+				}
+				if ($ui_json->{'sexe'} eq "male") {
 					$template->param('sexe_m' => 'checked') ;
 				} else {
 					$template->param('sexe_f' => 'checked') ;
 				}
 				{
-					my ($y, $m, $j) = split(/\-/, $ui_json->{'birthdate'}) ;
-					$template->param(dateNaissance => "$j/$m/$y") ;
+					my ($y, $m, $j) = split(/\-/, $ui_json->{'date_de_naissance'}) ;
+					$template->param(dateNaissance => encode('utf-8', "$j/$m/$y") ) ;
 				}
 				my $dptNaissance ;
 				my $villeNaissance ;
@@ -327,22 +167,33 @@ sub do_request()
 				# villeNaissance
 				# departementNaissance
 				# paysNaissance
-				if ($ui_json->{'birthplace'} eq "99100") {
-					$dptNaissance = "France" ;
-				} else {
-
-					my $cmd = "grep " . $ui_json->{'birthplace'} . " france2015.txt" ;
+				my $paysNaissance ;
+				if ($ui_json->{'pays_de_naissance'} eq "99100") {
+					my $cmd = "grep -e '^" . $ui_json->{'lieu_de_naissance'} . "' villes2015.txt" ;
 					my $line = `$cmd` ;
 					if ($line) {
-						print STDERR "Pays $line \n" ;
+						print STDERR "ville $line \n" ;
+						# CODGEO	LIBGEO	DEP	REG	REG2016	EPCI	NATURE_EPCI	ARR	CV	ZE2010	UU2010	TUU2010	TDUU2010	AU2010	TAU2010	CATAEU2010	BV2012
 						my @infos = split(/\t/, $line) ;
-						# 4\t\t\t\t11\t78\t471\t\t\t1\t91471\t1\t\tORSAY\t\tOrsay\t\t
-						eval { $villeNaissance = $infos[13] ; } ;
-						eval { $dptNaissance = $infos[5] ; } ;
+						eval { $villeNaissance = $infos[1] } ;
+						eval { $dptNaissance = $infos[2] } ;
+						$template->param(nationalite_francaise => "checked") ;
+					}
+				} else {
+					my $cmd = "grep " . $ui_json->{'pays_de_naissance'} . " pays2015.txt" ;
+					my $line = `$cmd` ;
+					if ($line) {
+						my @infos = split(/\t/, $line) ;
+						# COG	ACTUAL	CAPAY	CRPAY	ANI	LIBCOG	LIBENR	ANCNOM	CODEISO2	CODEISO3	CODENUM3
+						eval { $paysNaissance = $infos[6] ; } ;
+						$dptNaissance='999' ;
+						$villeNaissance = 'Etranger' ;
+						$template->param(nationalite_autre => "checked") ;
+						print STDERR "Pays $paysNaissance\n" ;
 					}
 				}
 				if ($dptNaissance) {
-					$template->param(villeNaissance => $villeNaissance) ;
+					$template->param(villeNaissance => encode('utf-8', $villeNaissance) ) ;
 					$template->param("DPT_" . $dptNaissance . "_NAI" => "selected") ;
 				}
       }
@@ -354,70 +205,71 @@ sub do_request()
 
     # Nationalité
     # numVoieHab
-    eval {
-      if ($fai) {
-				if ($fai->{'adresse'}) {
-					my $adresse = $fai->{'adresse'} ;
-					if ($adresse =~ m/(\d+)\s*,\s*(.+)/i) {
+		if ($dgfip_rp) {
+			eval {
+				if ($dgfip_rp->{'adresse'}) {
+					my $adresse = $dgfip_rp->{'adresse'} ;
+					if ($adresse =~ m/(\d*)\s*,?\s*(.+)/i) {
 						my $nVoie = $1 ;
 						my $rue = $2 ;
 						# indicNumVoieHab
 						$template->param(numVoieHab => $nVoie) ;
 						# addresseHab
-						$template->param(addresseHab => $rue) ;
+						$template->param(addresseHab => encode('utf-8', $rue) ) ;
 					}
 				}
-				if ($fai->{'commune'}) {
-					$template->param('communeHab' => $fai->{'commune'}) ;
-					if ($fai->{'code_postal'} =~ /([\d]{2})\d+/) {
+				if ($dgfip_rp->{'commune'}) {
+					$template->param('communeHab' => encode('utf-8', $dgfip_rp->{'commune'}) ) ;
+					if ($dgfip_rp->{'code_postal'} =~ /([\d]{2})\s?\d+/) {
 						my $dep = $1 ;
 						if ($dep > 96 or $dep == 20) {
-							$fai->{'code_postal'} =~ /([\d]{3})\d+/ ;
+							$dgfip_rp->{'code_postal'} =~ /([\d]{3})\d+/ ;
 							$dep = $1 ;
 						}
 						# departementHab
-						eval { $template->param('DEP_' . $dep .'_SEL' => 'selected') ; } ;
+						eval { $template->param('DEP_' . sprintf("%02d", $dep) .'_SEL' => 'selected') } ;
 						if ( $@ ) {
 							print STDERR "Erreur de détermination du département : $@\n" ;
 						}
 					}
 					# paysHab
-					eval { $template->param('PAYS_' . '10' .'_SEL' => 'selected') ; } ;
+					eval { $template->param('PAYS_' . '10' .'_SEL' => 'selected') } ;
 				}
-				$template->param('codepostalHab' => $fai->{'code_postal'})
-					if $fai->{'code_postal'} ;
-				$template->param('numTel' => $fai->{'tel_fixe'})
-					if $fai->{'tel_fixe'} ;
-				$template->param('addresseMail' => $fai->{'mail'})
-					if $fai->{'mail'} ;
-      }
-    } ;
-    if ($@) {
-      my $msg = $@ ;
-      print STDERR "Wrong JSON content in fai : ", $msg, "\n";
-    }
+				$template->param('codepostalHab' => $dgfip_rp->{'code_postal'})
+					if exists $dgfip_rp->{'code_postal'} ;
+				$template->param('numTel' => encode('utf-8', $dgfip_rp->{'tel_fixe'}))
+					if exists $dgfip_rp->{'tel_fixe'} ;
+				$template->param('addresseMail' => encode('utf-8', $ui_json->{'mail'}))
+					if exists $ui_json->{'mail'} ;
+			} ;
+			if ($@) {
+				my $msg = $@ ;
+				print STDERR "Wrong JSON content in dgfip_rp : ", $msg, "\n";
+			}
+		}
 
     $template->param("nationalite_francaise" => "checked") ; # On triche !
 
     # Service National
-    eval {
-      if ($serviceNational) {
+		if ($serviceNational) {
+			eval {
 				if ($serviceNational->{'situation_clair'}) {
-					$template->param("situation_sn" => $serviceNational->{'situation_clair'}) ;
+					$template->param("situation_sn" => encode('utf-8', $serviceNational->{'situation_clair'}) ) ;
 				}
 				$template->param(etat_SN_FC => "validFC") ;
-      } else {
-				$template->param(etat_SN_FC => "errorFC") ;
-      }
-    } ;
-    if ($@) {
-      my $msg = $@ ;
-      print STDERR "Error setting params for SN : ", $msg, "\n";
-    }
+			} ;
+			if ($@) {
+				my $msg = $@ ;
+				print STDERR "Error setting params for SN : ", $msg, "\n";
+			}
+
+		} else {
+			$template->param(etat_SN_FC => "errorFC") ;
+		}
 
     # Education Nationale
-    eval {
-      if ($educationNationale) {
+		if ($educationNationale) {
+			eval {
 				# {"nhits": 1,
 				# 	 "parameters": {"dataset":["men_diplomes"],
 				# 									"timezone": "UTC",
@@ -431,32 +283,38 @@ sub do_request()
 						my $fields = $record->{'fields'} ;
 						print STDERR "Settings info :", Dumper($fields), "\n" ;
 						if ($fields->{'examen'} =~ m/baccalaureat/i) {
-							$template->param("diplome_bac" => $fields->{'examen'} . ' ' . $fields->{'serie'} . ', ' . $fields->{'mention'} . '. Session ' . $fields->{'session'}) ;
+							$template->param("diplome_bac" => encode('utf-8', $fields->{'examen'} . ' ' . $fields->{'serie'} . ', ' . $fields->{'mention'} . '. Session ' . $fields->{'session'}) ) ;
 						}
 						if ($fields->{'examen'} =~ m/supérieur/i) {
-							$template->param("diplome_sup" => $fields->{'examen'} . ' ' . $fields->{'serie'} . ', ' . $fields->{'mention'} . '. Session ' . $fields->{'session'}) ;
+							$template->param("diplome_sup" => encode('utf-8', $fields->{'examen'} . ' ' . $fields->{'serie'} . ', ' . $fields->{'mention'} . '. Session ' . $fields->{'session'}) ) ;
 						}
 						if ($fields->{'examen'} =~ m/brevet/i) {
-							$template->param("diplome_brevet" => $fields->{'examen'} . ' ' . $fields->{'serie'} . ', ' . $fields->{'mention'} . '. Session ' . $fields->{'session'}) ;
+							$template->param("diplome_brevet" => encode('utf-8', $fields->{'examen'} . ' ' . $fields->{'serie'} . ', ' . $fields->{'mention'} . '. Session ' . $fields->{'session'}) ) ;
 						}
 					}
 				}
-				$template->param('etat_EN_FC', => 'validFC') ;
-				$template->param("explain_EN_status" => "Le minist&egrave;re de l'&Eacute;ducation nationale a transmis les informations suivantes vous concernant.") ;
-      } else {
-				$template->param("explain_EN_status" => "Le minist&egrave;re de l'&Eacute;ducation nationale n'a pas pu transmettre l'ensemble des pièces justificatives. Veuillez fournir une copie (scan .jpg, .pdf) de votre diplôme le plus élevé.") ;
-				$template->param('etat_EN_FC', => 'errorFC') ;
-      }
-    } ;
-    if ($@) {
-      my $msg = $@ ;
-      print STDERR "Error setting params for Education Nationale : ", $msg, "\n";
-    }
-    print $template->output ;
-  } else {
-		print "Error retreiving code and state from query string : ", $ENV{'QUERY_STRING'},  "\n";
-  }
+				$template->param('etat_EN_FC' => 'validFC') ;
+				$template->param("explain_EN_status" => "Le minist&egrave;re de l'&eacute;ducation nationale a transmis les informations suivantes vous concernant.") ;
+			} ;
+			if ($@) {
+				my $msg = $@ ;
+				print STDERR "Error setting params for Education Nationale : ", $msg, "\n";
+			}
+		} else {
+			$template->param("explain_EN_status" => "Le minist&egrave;re de l'&eacute;ducation nationale n'a pas pu transmettre l'ensemble des pi&egrave;ces justificatives. Veuillez fournir une copie (scan .jpg, .pdf) de votre dipl&ocirc;me le plus &eacute;lev&eacute;.") ;
+			$template->param('etat_EN_FC' => 'errorFC') ;
+		}
+		$template->param(connection_state => $fc->generateStateParam()) ;
 
-  $request->Finish();
+		print("Content-type: text/html; charset=utf-8\r\n\r\n");
+		print $template->output ;
+		$fc->enregistrer() ;
+	} else {
+		# La session n'existe pas ou plus mais est invalide. Redirection vers la page de connexion
+		print "HTTP/1.0 301" ;
+		print "Content-type: text/html; charset=utf-8\r\n" ;
+		print "Status: 301 Moved Permanently\r\n" ;
+		print "Location: http://hackathon.local/teleInscription/connect.pl\r\n\r\n" ;
+	}
+	$request->Finish();
 }
-
