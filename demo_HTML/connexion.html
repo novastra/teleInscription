@@ -1,0 +1,326 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="fr"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="author" content="DGFiP - Cap Numerique">
+		<meta name="contact" content="Nicolas Alliot (html - css - js)">		
+		<meta name="contact" content="Olivier Blanc (interface perl FranceConnect)">
+		<meta name="description" content="Maquette inscription en ligne"> 
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>TELE-INSCRIPTION DGFiP</title>
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="css/main.css">        
+        <link rel="stylesheet" href="css/connexion.css">        
+        <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+		    <style type="text/css">
+        #authFC .provider a,
+        #authFC .provider .img-container,
+        #authFC .consents li:before,
+        #authFC .fc-exchange-partner img,
+        #authFC .no-logo.fc-exchange-partner:after  {
+            clip-path: url('#hexagon-clip');
+        }
+    </style>
+    </head>
+    <body>
+        <!--[if lt IE 8]>
+            <p class="browserupgrade">Vous utilisez un navigateur <strong>obsolète</strong>. <a href="http://browsehappy.com/">Mettez à jour</a> ce dernier pour améliorer votre sécurité et confort de navigation.</p>
+        <![endif]-->
+
+<!-- Modale auth France Connect -->
+<div class="modal fade" id="authFC" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+	  
+        <div class="header modal-header" style="text-align:center;">
+          <h1 class="fc-exchange-partner no-logo" title="Inscription Concours">
+        
+        Inscription Concours
+        
+    </h1>
+        </div>
+		
+        <div class="modal-body">
+<p class="message">Connectez-vous simplement avec <b>FranceConnect</b>,</p>
+<p class="message small">Choisissez parmi l'un des organismes ci dessous</p>
+<ul class="providers ">
+       
+    <li class="provider dgfip">
+        <a href="" id="firstIdentityProvider">
+            <div class="img-container">
+                <img src="img/impots.png" alt="impots">
+                <span class="title">Impôts.gouv</span>
+            </div>
+        </a>
+    </li>
+      
+    <li class="provider ameli">
+        <a id="amel" data-toggle="modal" data-target="#ameli">
+            <div class="img-container">
+                <img src="img/ameli_carre.jpg" alt="ameli">
+                <span class="title">Ameli</span>
+            </div>
+        </a>
+    </li>
+ 
+    <li class="provider idn">
+        <a href="">
+            <div class="img-container">
+                <img src="img/laposte.png" alt="idn">
+                <span class="title">IDN</span>
+            </div>
+        </a>
+    </li>
+
+</ul>
+        </div>
+        <div class="footer modal-footer">
+		  <a class="cgu" href="http://fcp.demo.dev-franceconnect.fr/cgu" id="cgu">Informations légales - Conditions générales d’utilisation - 2015</a>
+ <a class="cgu link-modal" href="http://fcp.demo.dev-franceconnect.fr/cgu?modal" id="cgu" data-toggle="modal" data-target="#fcmodal">informations légales - Conditions générales d’utilisation - 2015</a>
+    
+        </div>
+      </div>
+    </div>
+</div> 
+
+<!-- Modale auth ameli -->
+<div class="modal fade" id="ameli" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+	  
+        <div class="header modal-header page-header" style="text-align:center;">
+		
+                <img src="img/amelibanner.png" style="max-width: 100%;"/>
+            </div>
+            <div class="modal-body row">
+                <div class="col-xs-4 col-md-4">
+                    <img src="img/ameliconnexion.png" style="max-width: 100%"/>
+                </div>
+                <div class="col-xs-8 col-md-8">
+				<p style="color:black">
+                        Ceci est une application de démonstration. N'utilisez pas vos vrais identifiants!
+                    </p>
+                 
+                    <h4>Je me connecte à FranceConnect avec mon
+                        compte Ameli :</h4>
+
+                    <div style="color: #C84294;">
+                        <form method="post">
+                            <div class="form-group">
+                                <label for="identifier">
+                                    Mon numéro de sécurité sociale :
+                                </label>
+                                <input class="form-control" type="text" name="identifier">
+                            </div>
+                            <div class="form-group">
+                                <label for="password">
+                                    Mon code :
+                                </label>
+                                <input class="form-control" type="password" name="password">
+                            </div>
+                            <button id="FC_login" type="submit" class="btn btn-default" >Valider
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+			
+        </div>
+      </div>
+    </div>
+
+
+       <div class="wrapper">
+	<div class="container">
+	
+
+
+		<h1 id="messageConnexion">Inscription aux concours administratifs</h1>
+		
+		<form class="form">
+			<!--
+			<input placeholder="Identifiant" type="text">
+			<input placeholder="Mot de passe" type="password">-->
+			<div class="boutonsConnexion">
+			<h3 style="margin-top:0;">Se connecter</h3>
+			<button id="old_login" class="btn btn-large" href="connexionOld.html">Connexion traditionnelle</button>
+            <span class="verticalLine"></span>
+			<a id="fc" class="btn btn-large" data-toggle="modal" data-target="#authFC"><img style="height: 2em;" src="img/fc4.png" alt="Connexion avec FranceConnect"/></a>		
+			<a class="glyphicon glyphicon-info-sign helperLogin" aria-hidden="true"></a>
+			<div class="infoLogin">
+			<div align="center">
+<div id="tableComparaisonFC">
+<table class="tableComparaison">
+<thead>
+<tr>
+<td class="feature-column">
+</td>
+<td class="product-column text-center" style="width:150px">
+<div>
+<p>
+Connexion<br />
+<b>
+traditionnelle</b>
+</p>
+</div>
+</td>
+<td class="product-column text-center" style="width:150px">
+<div>
+<p>
+<img style="margin: -0.2em 0px;width: 130px;" src="img/fc4.png" alt="Connexion avec FranceConnect"/>
+</p>
+</div>
+</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="feature-column">
+<span class="featuretitle">
+<b>
+Gestion en ligne des justificatifs</b>
+</span>
+</td>
+<td class="col1">
+<span class="glyphicon glyphicon-ok validos" aria-hidden="true"></span>
+</td>
+<td class="col2">
+<span class="glyphicon glyphicon-ok validos" aria-hidden="true"></span>
+</td>
+</tr>
+<tr>
+<td class="feature-column">
+<span class="featuretitle">
+<b>
+Envoi d'alertes</b>
+</span>
+</td>
+<td class="col1">
+<span class="glyphicon glyphicon-ok validos" aria-hidden="true"></span>
+</td>
+<td class="col2">
+<span class="glyphicon glyphicon-ok validos" aria-hidden="true"></span>
+</td>
+</tr>
+<tr>
+<td class="feature-column">
+<span class="featuretitle">
+<b>
+Récupération automatique des données</b>
+</span>
+</td>
+<td class="col1">
+ <span class="glyphicon glyphicon-remove eroros" aria-hidden="true"></span></td>
+<td class="col2">
+<span class="glyphicon glyphicon-ok validos" aria-hidden="true"></span>
+</td>
+</tr>
+<tr>
+<td class="feature-column">
+<span class="featuretitle">
+<b>
+Récupération automatique des justificatifs</b>
+</span>
+</td>
+<td class="col1">
+<span class="glyphicon glyphicon-remove eroros" aria-hidden="true"></span></td>
+<td class="col2">
+<span class="glyphicon glyphicon-ok validos" aria-hidden="true"></span>
+</td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td style="background-color:white">
+<span class="featuretitle" style="font-size: 14px;" title="Temps total moyen tenant compte des étapes de numérisation des documents">
+<b>
+Temps total</b>
+</span>
+</td>
+<td class="col1">
+<p>
+<b>
+<span class="glyphicon glyphicon-time" aria-hidden="true"></span>
+30 min</b>
+</p>
+</td>
+<td class="col2">
+<p>
+<b>
+<span class="glyphicon glyphicon-time" aria-hidden="true"></span>
+2 min</b>
+</p>
+</td>
+</tr>
+</tfoot>
+</table>
+</div>
+</div>
+			</div>
+			</div>
+
+		</form>
+	</div>
+	
+	<ul class="bg-bubbles"> <!-- le nb de li détermine le nombre d'éléments animés-->
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+	</ul>
+</div>
+<footer class="infoFooter">
+	<a class="pull-right"><img class="logoDGFiP" alt="&copy; DGFiP" src="img/logoDGFiP.png"/></a><br>
+	<a class="pull-right" style="text-align:bottom;color:#ddd;">Mentions légales </a> 
+</footer>
+	
+		<script src="js/vendor/jquery-1.11.2.min.js"></script>
+        <script src="js/vendor/jquery-ui.min.js"></script>
+        <script src="js/vendor/bootstrap.min.js"></script>
+        <script src="js/main.js"></script>
+        <script src="js/vendor/jquery-1.11.2.min.js"></script>
+        <script>
+
+    /*    $('.helperLogin').hover(function (event) {
+	$(".infoLogin").toggle(500);
+    });
+*/
+    $('#FC_login').click(function (event) {
+    event.preventDefault();
+	$('#messageConnexion').html("Bienvenue");
+    $('form').delay(300).fadeOut(500, function(){
+		window.location.href = "index.html";
+    });
+    $('.wrapper').addClass('form-success');
+});
+
+$('#amel').click(function (event) {
+	$('#authFC').toggle();
+	$('.modal-backdrop').toggle();
+});
+
+$('#old_login').click(function (event) {
+	event.preventDefault();
+	window.location.href = "connexionOld.html";
+});
+    </script>
+	<svg>
+    <defs>
+        <clipPath id="hexagon-clip" clipPathUnits="objectBoundingBox">
+            <polygon points="0.5 0, 1 0.25, 1 0.75, 0.5 1, 0 0.75, 0 0.25"></polygon>
+        </clipPath>
+    </defs>
+</svg>
+    </body>
+</html>

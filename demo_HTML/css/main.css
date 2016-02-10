@@ -1,0 +1,857 @@
+/* ==========================================================================
+   REGLES GÉNÉRALES
+   ========================================================================== */
+/*basic reset*/
+* {margin: 0; padding: 0;}
+
+*::before, *::after {
+    box-sizing: border-box;
+}
+
+html {
+	height: 100%;
+	overflow-x:hidden;
+}
+
+body {
+	padding-top: 50px;
+	padding-bottom: 20px;
+	background:#f2f2f2;
+}
+
+a, a:hover, a:focus, a:active,
+button, button:hover, button:focus, button:active{
+	text-decoration:none;
+	outline:none;
+	cursor:pointer;
+}
+
+
+.infoFooter{
+position: absolute;
+bottom: 0;
+left: 0;
+width:100%;
+}
+
+.logoDGFiP{
+	height:35px;
+	background:#eee;
+	border:1px solid #305AA4;
+	border-radius:2px;
+	margin: 0.25em;
+	opacity: 0.9;
+}
+
+
+.uploadMasque {
+font-weight: bold;
+padding: 5px 14px;
+text-decoration: none;
+background: #FFF linear-gradient(center top , #FFF 5%, #F6F6F6 100%) repeat scroll 0% 0%;
+cursor: pointer;
+border-radius: 6px;
+border: 1px solid #469DF5;
+width:25em;
+}
+.uploadMasque input[type="file"]{
+opacity:0;
+cursor: pointer;
+}
+.uploadMasque span{
+position:absolute;
+line-height: 1.7em;
+}
+
+#fermOverlay{
+	display:none;
+	position:fixed;
+	height:100%;
+	width:100%;
+	top:0;
+	left:0;
+	cursor:pointer;
+}
+
+.titreZone{
+	position:absolute;
+	top:0;
+	left:0;
+	width:100%;
+	text-align:center;
+	font-family:Century Gothic, sans-serif;
+	margin:0 !important;
+}
+
+.titreZone h1{
+	margin:0 !important;	
+	line-height:50px;
+	font-size: 1.75em;
+	color:#eee;
+	font-weight: 300;
+}
+
+.containerBoutons{
+	width:100%;
+	text-align:center;
+	padding: 1em 0px;
+	border: 1px solid #ddd;
+	background: #E1E1E1;
+	border-radius:0 0 3px 3px;
+}
+
+.boutonValidation{
+    border: 1px solid #333;
+    color: #FFF;
+    font-family: inherit;
+    font-size: inherit;
+    color: #333;
+    background: #fefefe;
+    cursor: pointer;
+    padding: 0.5em 3em;
+    display: inline-block;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 700;
+    outline: medium none;
+    position: relative;
+    transition: all 0.3s ease 0s;
+	border-radius: 3px;
+}
+
+.boutonValidation:after {
+    width: 0%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+    background: #527CC6 none repeat scroll 0% 0%;
+    content: "";
+    position: absolute;
+    transition: all 0.3s ease, content 0.4s ease;
+	line-height: 2.4em;
+}
+
+.boutonValidation:hover,
+.boutonValidation:active {
+    border: 1px solid #fff;
+	color: #fff;
+}
+
+.boutonValidation:hover:after,
+.boutonValidation:active:after {
+	width: 100%;
+	content: "VALIDER";
+}
+
+.navbar{
+position:absolute;
+}
+
+.cartoucheID{
+	padding: 0 1em;
+	font-size: 1.2em;
+	position: absolute;
+	right: 0px;
+	top: 0px;
+	float: right;
+	color: white;
+	height: 50px;
+	vertical-align: middle;
+	line-height: 50px;
+}
+
+#menuTrig {
+	border: none;
+	background: none;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	outline: none;
+	border: 0px solid #fff;
+	color: #fff;
+	overflow: hidden;		
+	font-size:21px;
+	font-family:Century Gothic, Verdana, sans-serif;
+	cursor:pointer;
+	line-height:49px;
+	color:#eee;
+	border-radius:2px;
+	width: 13.35em;
+	position: absolute;
+	top: 0;
+	left: 0;
+	padding-left:1em;
+	transition: all 0.3s ease;
+	z-index: 2200;
+}
+
+#menuTrig:after {
+	content: '';
+	position: absolute;
+	z-index: -1;
+	-webkit-transition: all 0.3s;
+	-moz-transition: all 0.3s;
+	transition: all 0.3s;
+	width: 100%;
+	height: 0;
+	top: 50%;
+	left: 50%;
+	background: #fff;
+	opacity: 0;
+	-webkit-transform: translateX(-50%) translateY(-50%) rotate(45deg);
+	-moz-transform: translateX(-50%) translateY(-50%) rotate(45deg);
+	-ms-transform: translateX(-50%) translateY(-50%) rotate(45deg);
+	transform: translateX(-50%) translateY(-50%) rotate(45deg);
+}
+
+#menuTrig:hover,
+#menuTrig:focus,
+#menuTrig:active {
+	color: #0e83cd;
+	border: 1px solid #fff;
+}
+
+#menuTrig:hover:after,
+#menuTrig:focus:after {
+	height: 400%;
+	opacity: 1;
+}
+/*
+#menuTrig:focus span.glyphicon:before{
+content:"";
+}
+*/
+/*#menuTrig:active:after {
+	height: 500%;
+	opacity: 1;
+}
+*/
+.menu{
+	position:fixed;
+	height:calc(100% - 45px);
+	width:20em;
+	top:50px;
+	left:0;
+	background:#333;
+	margin-left:-20em;
+	transition: all 0.2s ease;
+	z-index:3000;
+}
+
+.menu-ouvert{
+	margin-left:0;
+	z-index:3000;
+	box-shadow: 2px 3px 3.75px 0px rgba(0, 0, 0, 0.4);
+}
+
+.menu ul {
+	padding: 0;
+	margin: 2em 0 0 0;
+	list-style: none;
+	opacity: 0;
+	position: relative;
+	z-index: 0;
+	pointer-events: none;
+	-webkit-transition: opacity 0s linear 305ms;
+	-moz-transition: opacity 0s linear 305ms;
+	transition: opacity 0s linear 305ms;
+}
+
+.menu.menu-ouvert ul {
+	opacity: 1;
+	z-index: 200;
+	pointer-events: auto;
+	-webkit-transition: opacity 0s linear 0s;
+	-moz-transition: opacity 0s linear 0s;
+	transition: opacity 0s linear 0s;
+}
+
+.menu ul li {
+	display: block;
+	opacity: 0;
+	-webkit-transition: opacity 0.2s ease;
+	-moz-transition: opacity 0.2s ease;
+	transition: opacity 0.2s ease;
+	font-size:1.2em;
+}
+
+.menu.menu-ouvert ul li {
+	opacity: 1;
+}
+
+.menu.menu-ouvert ul li:nth-child(2) {
+	-webkit-transition-delay: 45ms;
+	-moz-transition-delay: 45ms;
+	transition-delay: 45ms;
+}
+
+.menu.menu-ouvert ul li:nth-child(3) {
+	-webkit-transition-delay: 80ms;
+	-moz-transition-delay: 80ms;
+	transition-delay: 80ms;
+}
+
+.menu.menu-ouvert ul li:nth-child(4) {
+	-webkit-transition-delay: 115ms;
+	-moz-transition-delay: 115ms;
+	transition-delay: 115ms;
+}
+
+.menu.menu-ouvert ul li:nth-child(5) {
+	-webkit-transition-delay: 150ms;
+	-moz-transition-delay: 150ms;
+	transition-delay: 150ms;
+}
+
+.menu.menu-ouvert ul li:nth-child(6) {
+	-webkit-transition-delay: 185ms;
+	-moz-transition-delay: 185ms;
+	transition-delay: 185ms;
+}
+
+.menu.menu-ouvert ul li:nth-child(7) {
+	-webkit-transition-delay: 215ms;
+	-moz-transition-delay: 215ms;
+	transition-delay: 215ms;
+}
+/*deconnexion*/
+.menu.menu-ouvert ul li:last-child {
+	position:fixed;
+	bottom:1em;
+	left:1em;
+	font-size:1.25em;
+	margin:1em;
+}
+.menu.menu-ouvert ul li:last-child a {
+	padding: 0.5em;
+	transition: all 0.5s ease 0s;
+	margin: 0.5em;
+	width: auto;
+}
+
+.menu ul li a {
+	display: inline-block;
+	color: #eee;
+	font-family: Verdana, sans-serif;
+	font-size: 1em;
+	line-height: 1.5em;
+	transform:all 0.5s ease;
+	cursor:pointer;
+	width: 16em;
+	padding: 0.75em;
+}
+
+.menu ul li a:not(.deco):hover {
+	color: #333;
+	}
+	
+.menu ul li a.deco:hover span {
+	color: crimson;
+}
+
+.menu ul li a.deco:hover {
+	transform:scale(1.1,1.1);
+	border:1px solid crimson;
+}
+	
+.menu ul li a:not(.deco):after {
+	position: absolute;
+	transition: all 0.5s ease 0s, transform 0.7s ease;
+	content: "";
+	width: 0px;
+	height: 3em;
+	margin-top:-0.75em;
+	left: -10%;
+	transform: skewX(15deg);
+	z-index: -1;
+	background: none repeat scroll 0% 0% #F7F7F7;
+}
+
+.menu ul li a:not(.deco):hover:after {
+  transform: skewX(0deg);
+  left: -10%;
+  width: 110%;
+}
+
+.menu ul li a.activos {
+  color: #333;
+  cursor:default;
+}
+	
+.menu ul li a.activos:after {
+  transform: skewX(0deg);
+  left: -10%;
+  width: 110%;
+  background: none repeat scroll 0% 0% #F2F2F2;
+}
+
+/* ==========================================================================
+   PAGE ACCUEIL
+   ========================================================================== */
+.containerAccueil{
+	margin-top: 5em;
+	box-shadow: 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12), 0px 2px 4px -1px rgba(0, 0, 0, 0.2);
+	background:#fff;
+	border-radius: 3px;
+}
+
+.actionsRapide{
+padding:4em;
+border-bottom: 1px solid #DDD;
+}
+
+.iconAct + .iconAct {
+    margin-left: 4.5em;
+}
+.iconAct {
+    opacity: 0.85;
+    border-radius: 10px;
+    font-size: 3em;
+	transition: all 0.2s ease;
+}
+
+.iconAct:nth-child(1){
+	color: #418FD1;
+}
+.iconAct:nth-child(2){
+	color: #FFA500;
+}
+.iconAct:nth-child(3){
+	color: #008000;
+}
+
+.iconAct:hover,
+.iconAct:focus{
+	opacity:1;
+}
+
+.descrAct{
+font-size: 0.3em;
+color: #333;
+position: absolute;
+margin-top: 4.5em;
+margin-left: -6em;
+}
+.iconAct:nth-child(2) .descrAct{
+margin-left: -6.15em;
+}
+.iconAct:nth-child(3) .descrAct{
+margin-left: -6.65em;
+}
+
+
+.tribe-mini-calendar-event {
+    overflow: hidden;
+    width: 100%;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+    border-bottom: 1px dotted #2F2F2F;
+}   
+ .tribe-mini-calendar-event .list-date {
+    float: left;
+    overflow: hidden;
+    font-weight: bold;
+    margin: 10px 5% 10px 0px;
+    padding: 3px;
+    width: 15%;
+    text-align: center;
+    display: inline;
+    background: none repeat scroll 0% 0% #666;
+    box-sizing: border-box;
+}
+.tribe-mini-calendar-event .list-date .list-dayname {
+    background: none repeat scroll 0% 0% #FFF;
+    color: #666;
+    padding: 3px;
+    font-size: 9px;
+    text-transform: uppercase;
+    width: 100%;
+    text-align: center;
+    display: block;
+    box-sizing: border-box;
+}  
+.tribe-mini-calendar-event .list-date .list-daynumber {
+    color: #FFF;
+    font-size: 15px;
+    width: 100%;
+    line-height: 22px;
+    display: block;
+    text-align: center;
+}
+.tribe-mini-calendar-event .list-info {
+    margin: 10px 0px;
+    display: inline;
+    line-height: 1;
+    float: left;
+    width: 80%;
+	font-size:1em;
+}
+   
+   /* ==========================================================================
+   PARTIE GESTION CONCOURS
+   ========================================================================== */
+   .actionsGestion{
+   
+width: 10em;
+   }  
+   
+   .actionsGestion a  span.infos{
+display: block;
+opacity: 0;
+color: #F0F0F0;
+background: none repeat scroll 0% 0% #555;
+padding: 5px;
+border-radius: 3px;
+text-align: center;
+font-size: 0.9em;
+width: 100px;
+position: absolute;
+margin: 5px 0px 0px -50px;
+z-index: 10;
+transform: scale(0, 0);
+transition: all 0.4s ease 0s;
+}
+
+.actionsGestion a:hover span.infos{
+opacity:1;
+transform: scale(1, 1);
+}
+   
+   
+   /* ==========================================================================
+   PARTIE INSCRIPTION CONCOURS
+   ========================================================================== */
+  /*form styles*/
+#msform {
+	margin: 2em auto;
+	position: relative;
+}
+#msform fieldset {
+	background: white;
+	border: 0 none;
+	border-radius: 3px;
+	box-shadow: 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12), 0px 2px 4px -1px rgba(0, 0, 0, 0.2);
+	padding: 20px 30px;
+	box-sizing: border-box;
+	width: 60%;
+	margin: 0px 20%;
+	
+	/*stacking fieldsets above each other*/
+	position: absolute;
+}
+/*Hide all except first fieldset*/
+#msform fieldset:not(:first-of-type) {
+	display: none;
+}
+/*buttons*/
+#msform .action-button {
+	width: 100px;
+	background: #27AE60;
+	font-weight: bold;
+	color: white;
+	border: 0 none;
+	border-radius: 1px;
+	cursor: pointer;
+	padding: 10px 5px;
+	margin: 10px 5px;
+}
+
+#msform .submit {
+	background: #2F4EBC;
+	box-shadow: 0 0 0 2px white, 0 0 0 3px #2F4EBC !important;
+	transition:all 0.3s ease;
+}
+
+#msform .cachos{
+opacity:0;
+}
+
+#msform .submit:hover {
+	background: #3B5AC9;
+	box-shadow: 0 0 0 3px white, 0 0 0 4px #2F4EBC !important;
+}
+
+#msform .action-button:hover, #msform .action-button:focus {
+	box-shadow: 0 0 0 2px white, 0 0 0 3px #27AE60;
+}
+/*headings*/
+.fs-title {
+	font-size: 1.5em;
+	text-transform: uppercase;
+	color: #2C3E50;
+	margin-bottom: 10px;
+	text-align: center;
+}
+.fs-subtitle {
+	font-weight: normal;
+	font-size: 1.25em;
+	color: #666;
+	margin-bottom: 20px;
+	text-align: center;
+}
+/*progressbar*/
+#progressbar {
+	margin-bottom: 30px;
+	overflow: hidden;
+	/*CSS counters to number the steps*/
+	counter-reset: step;
+	text-align: center;
+}
+#progressbar li {
+	list-style-type: none;
+	color: #555;
+	text-transform: uppercase;
+	font-size: 1.15em;
+	width: 33.33%;
+	float: left;
+	position: relative;
+}
+#progressbar li:before {
+	content: counter(step);
+	counter-increment: step;
+	width: 20px;
+	line-height: 20px;
+	display: block;
+	font-size: 18px;
+	color: #fff;
+	background: #555;
+	border-radius: 50%;
+	margin: 0 auto 5px auto;
+}
+/*progressbar connectors*/
+#progressbar li:after {
+	content: '';
+	width: 100%;
+	height: 2px;
+	background: #555;
+	position: absolute;
+	left: -50%;
+	top: 9px;
+	z-index: -1; /*put it behind the numbers*/
+}
+#progressbar li:first-child:after {
+	/*connector not needed before the first step*/
+	content: none; 
+}
+/*marking active/completed steps green*/
+/*The number of the step and the connector before it = green*/
+#progressbar li.active:before,  #progressbar li.active:after{
+	background: #27AE60;
+	color: white;
+}   
+   
+   /* ==========================================================================
+   PARTIE GESTION INFO COMPTE
+   ========================================================================== */
+#tabs{
+	margin-top: 1.5em;
+	box-shadow: 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12), 0px 2px 4px -1px rgba(0, 0, 0, 0.2);
+	border-radius: 3px;
+}   
+   
+.contInscr{
+	background:#fefefe;
+}
+   
+.conTabs{
+	background:#305AA4;
+	border-radius:3px 3px 0 0;
+	width:100%;
+	display:block;
+	padding-left: 0;
+}
+
+.conTabs li {
+    list-style: outside none none;
+	border-radius:3px 3px 0 0;
+    float: left;
+    position: relative;
+	padding:1em 0em;
+	font-size: 1em;
+	line-height: 1em;
+	letter-spacing: 0.055em;
+	font-family:Verdana, sans-serif;
+	width: 14.285%; /* = 100 / nb d'onglets  (en %)*/
+	text-align: center;
+	background: none repeat scroll 0% 0% #305AA4;
+}
+
+.conTabs li.error{
+background: none repeat scroll 0% 0% #B32E49;
+animation: pulse 2s infinite; 
+}
+@-moz-keyframes pulse{
+    0%{box-shadow:0 0 10px #C0324F;}
+    50%{box-shadow:0 0 3px #D73859;}
+    100%{box-shadow:0 0 1px crimson;}
+}
+@keyframes pulse{
+    0%{box-shadow:0 0 10px #C0324F;}
+    25%{box-shadow:0 0 3px #D73859;}
+    100%{box-shadow:0 0 1px crimson;}
+}
+
+.conTabs li.error:hover{
+background: none repeat scroll 0% 0% #D73859;
+}
+/*
+.conTabs li.facultatif{
+background: none repeat scroll 0% 0% #626262;
+}
+
+.conTabs li.facultatif:hover{
+background: none repeat scroll 0% 0% #747474;
+}
+*/
+
+.conTabs li:hover {
+	background:#527CC6;
+	padding: 1.25em 0em;
+	margin: -0.5em 0;
+}
+
+.conTabs li a{
+	color:#fefefe;
+	text-shadow: 0px 1px 3px rgba(0, 0, 0, 0.75);
+	padding:1em 2.5em;
+}
+.conTabs li.ui-tabs-active{
+	background:#fefefe;
+	padding: 1.5em 0em;
+	margin: -1em 0;
+	animation:none;
+}
+.conTabs li.ui-tabs-active a{
+cursor:default;
+}
+.conTabs li.ui-tabs-active:hover{
+	background:#fefefe;
+}
+
+.conTabs li.ui-tabs-active a{
+color:#333;
+text-shadow: 0px 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.ui-helper-clearfix::after {
+    clear: both;
+}
+.ui-helper-clearfix::before, .ui-helper-clearfix::after {
+    content: "";
+    display: table;
+    border-collapse: collapse;
+}
+
+.ui-tabs-panel{
+	padding:1em;
+	/*height: 60vh;*/
+}
+.data-FC{
+list-style:none;
+}
+
+.data-FC li:before {
+    content: "\e013";
+    font-family: "Glyphicons Halflings";
+    line-height: 1;
+    padding: 0px 15px;
+    font-size: 16px;
+	color: #0B6BA8;
+}
+.data-FC li.accept:before {
+	color: #1DAE6C;
+}
+.data-FC li.refus:before {
+    content: "\e014";
+	color: #DC143C;
+}
+
+.infoFC{
+border: 1px solid #ddd;
+padding: 0.5em;
+background: none repeat scroll 0% 0% #F8F8F8;
+line-height: 2em;
+vertical-align: bottom;
+}
+
+.infoFC span{
+	font-size:2em;
+	padding-right: 0.5em;
+}
+
+.validFC span{
+	color:#1DAE6C;
+}
+
+.errorFC span{
+	color:#DC143C;
+}
+
+.validUpload{
+color:#1DAE6C;
+}
+
+.validUpload:after{
+font-family:"Glyphicons Halflings";
+content:"\e013";
+padding-left: 12em;
+}
+
+/* ############## CORRECTIF MEDIA QUERY PR TABS JQUERY ET MENU GAUCHE ################# */
+
+
+@media screen and (max-width: 1200px) {
+.conTabs li a {
+padding:1em;
+}
+}
+
+@media screen and (max-width: 768px) {
+#menuTrig {
+    width: 2em;
+    height: 2em;
+	padding-left:0;
+}
+
+.conTabs li {
+font-size: 0.5em;
+letter-spacing: 0em;
+}
+
+#msform fieldset {
+    width: 80%;
+    margin: 0px 10%;
+}
+
+.iconAct + .iconAct {
+    margin-left: 2em;
+}
+
+}
+
+@media screen and (max-width: 360px) {
+.menu.menu-ouvert ul li:last-child {
+    bottom: 0;
+}
+
+.conTabs li a {
+padding:0;
+}
+
+#msform fieldset {
+    width: 100%;
+    margin: 0px 0px;
+}
+
+.actionsRapide {
+    display: none;
+}
+
+.boutonsConnexion .helperLogin {
+    display: none;
+}
+
+.verticalLine{
+    display: none;
+}
+
+}
